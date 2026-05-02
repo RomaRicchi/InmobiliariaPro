@@ -1,0 +1,27 @@
+<resources>
+    <string name="app_name">InmobiliariaPro</string>
+    <string name="navigation_drawer_open">Open navigation drawer</string>
+    <string name="navigation_drawer_close">Close navigation drawer</string>
+    <string name="nav_header_title">Inmobiliaria Pro</string>
+    <string name="nav_header_subtitle">luisprofessor@gmail.com</string>
+    <string name="nav_header_desc">Navigation header</string>
+    <string name="action_settings">Settings</string>
+
+    <string name="menu_transform">Inmuebles</string>
+    <string name="menu_reflow">Inquilinos</string>
+    <string name="menu_slideshow">Perfil</string>
+    <string name="menu_settings">Cerrar Sesión</string>
+
+    <string name="title_perfil">Mi Perfil</string>
+    <string name="label_nombre">Nombre</string>
+    <string name="label_apellido">Apellido</string>
+    <string name="label_dni">DNI</string>
+    <string name="label_telefono">Teléfono</string>
+    <string name="label_email">Email</string>
+    <string name="btn_editar">Editar</string>
+    <string name="btn_guardar">Guardar</string>
+    <string name="perfil_actualizado">Perfil actualizado correctamente</string>
+
+    <string name="fab_content_description">Acción rápida</string>
+    <string name="image_view_item_transform_content_description">Imagen del inmueble</string>
+</resources>

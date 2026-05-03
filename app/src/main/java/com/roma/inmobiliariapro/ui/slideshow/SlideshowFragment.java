@@ -11,7 +11,7 @@ import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
 
-import com.roma.inmobiliariapro.data.model.Propietario;
+import com.roma.inmobiliariapro.data.model.response.Propietario;
 import com.roma.inmobiliariapro.databinding.FragmentSlideshowBinding;
 
 public class SlideshowFragment extends Fragment {

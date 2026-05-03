@@ -1,13 +1,12 @@
-package com.roma.inmobiliariapro.ui.inmuebles;
+package com.roma.inmobiliariapro.ui.adapters;
 
 import android.content.Context;
 import android.view.LayoutInflater;
-import android.view.View;
 import android.view.ViewGroup;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 import com.bumptech.glide.Glide;
-import com.roma.inmobiliariapro.data.model.Inmueble;
+import com.roma.inmobiliariapro.data.model.response.Inmueble;
 import com.roma.inmobiliariapro.databinding.ItemInmuebleBinding;
 import java.util.List;
 

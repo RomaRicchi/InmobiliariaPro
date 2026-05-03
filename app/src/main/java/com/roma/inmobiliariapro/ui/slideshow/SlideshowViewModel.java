@@ -5,7 +5,7 @@ import androidx.annotation.NonNull;
 import androidx.lifecycle.AndroidViewModel;
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
-import com.roma.inmobiliariapro.data.model.Propietario;
+import com.roma.inmobiliariapro.data.model.response.Propietario;
 import com.roma.inmobiliariapro.data.repository.PropietarioRepository;
 import com.roma.inmobiliariapro.utils.SessionManager;
 

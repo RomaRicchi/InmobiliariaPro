@@ -16,6 +16,10 @@ public class RetrofitClient {
     private static Retrofit retrofit = null;
 
     public static ApiService getService(SessionManager sessionManager) {
+        // Siempre creamos una instancia nueva si el token cambió o para asegurar que el interceptor
+        // use la instancia más reciente del sessionManager.
+        // O mejor aún, hacemos que el interceptor obtenga el token dinámicamente.
+        
         if (retrofit == null) {
             HttpLoggingInterceptor logging = new HttpLoggingInterceptor();
             logging.setLevel(HttpLoggingInterceptor.Level.BODY);
@@ -29,8 +33,10 @@ public class RetrofitClient {
                             Request.Builder requestBuilder = original.newBuilder();
                             
                             String token = sessionManager.getToken();
-                            if (token != null) {
-                                requestBuilder.header("Authorization", "Bearer " + token);
+                            if (token != null && !token.isEmpty()) {
+                                // Limpiamos el token de posibles comillas si el ScalarConverter las dejó
+                                String cleanToken = token.replace("\"", "");
+                                requestBuilder.header("Authorization", "Bearer " + cleanToken);
                             }
 
                             Request request = requestBuilder.build();

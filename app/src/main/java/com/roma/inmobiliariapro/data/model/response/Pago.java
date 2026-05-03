@@ -1,4 +1,4 @@
-package com.roma.inmobiliariapro.data.model;
+package com.roma.inmobiliariapro.data.model.response;
 
 import com.google.gson.annotations.SerializedName;
 import java.io.Serializable;

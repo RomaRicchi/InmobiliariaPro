@@ -1,6 +1,7 @@
-package com.roma.inmobiliariapro.data.model;
+package com.roma.inmobiliariapro.data.model.response;
 
 import com.google.gson.annotations.SerializedName;
+import com.roma.inmobiliariapro.data.model.response.Propietario;
 import java.io.Serializable;
 
 public class Inmueble implements Serializable {
@@ -24,7 +25,6 @@ public class Inmueble implements Serializable {
     private Propietario propietario;
     private boolean tieneContratoVigente;
 
-    // Getters y Setters
     public int getId() { return id; }
     public void setId(int id) { this.id = id; }
     public String getDireccion() { return direccion; }

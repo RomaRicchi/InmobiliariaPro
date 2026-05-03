@@ -1,10 +1,7 @@
-package com.roma.inmobiliariapro.data.model;
+package com.roma.inmobiliariapro.data.model.response;
 
 public class LoginResponse {
     private String token;
-    // Agrega otros campos que devuelva tu API, por ejemplo:
-    // private String nombre;
-    // private String email;
 
     public String getToken() {
         return token;

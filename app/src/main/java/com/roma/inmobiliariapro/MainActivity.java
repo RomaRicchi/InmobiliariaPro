@@ -3,7 +3,11 @@ package com.roma.inmobiliariapro;
 import android.os.Bundle;
 import android.view.MenuItem;
 import android.view.Menu;
+import android.view.View;
+import android.widget.ImageView;
+import android.widget.TextView;
 
+import com.bumptech.glide.Glide;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.android.material.snackbar.Snackbar;
 import com.google.android.material.navigation.NavigationView;
@@ -16,7 +20,9 @@ import androidx.navigation.ui.AppBarConfiguration;
 import androidx.navigation.ui.NavigationUI;
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.roma.inmobiliariapro.data.repository.PropietarioRepository;
 import com.roma.inmobiliariapro.databinding.ActivityMainBinding;
+import com.roma.inmobiliariapro.utils.SessionManager;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -38,22 +44,41 @@ public class MainActivity extends AppCompatActivity {
         assert navHostFragment != null;
         NavController navController = navHostFragment.getNavController();
 
+        mAppBarConfiguration = new AppBarConfiguration.Builder(
+                R.id.nav_transform, R.id.nav_reflow, R.id.nav_slideshow, R.id.nav_settings)
+                .setOpenableLayout(binding.drawerLayout)
+                .build();
+
+        NavigationUI.setupActionBarWithNavController(this, navController, mAppBarConfiguration);
+
         NavigationView navigationView = binding.navView;
         if (navigationView != null) {
-            mAppBarConfiguration = new AppBarConfiguration.Builder(
-                    R.id.nav_transform, R.id.nav_reflow, R.id.nav_slideshow, R.id.nav_settings)
-                    .setOpenableLayout(binding.drawerLayout)
-                    .build();
-            NavigationUI.setupActionBarWithNavController(this, navController, mAppBarConfiguration);
             NavigationUI.setupWithNavController(navigationView, navController);
+
+            View headerView = navigationView.getHeaderView(0);
+            TextView name = headerView.findViewById(R.id.textName);
+            TextView email = headerView.findViewById(R.id.textEmail);
+            ImageView profileImage = headerView.findViewById(R.id.imageProfile);
+
+            SessionManager sessionManager = new SessionManager(this);
+            PropietarioRepository repository = new PropietarioRepository(sessionManager);
+
+            repository.obtenerPerfil().observe(this, propietario -> {
+                if (propietario != null) {
+                    name.setText(propietario.getNombre() + " " + propietario.getApellido());
+                    email.setText(propietario.getEmail());
+                    
+                    // Cargar imagen de perfil con Glide
+                    Glide.with(this)
+                            .load(R.mipmap.ic_launcher_round) // Usamos el launcher como placeholder/default
+                            .circleCrop()
+                            .into(profileImage);
+                }
+            });
         }
 
         BottomNavigationView bottomNavigationView = binding.appBarMain.contentMain.bottomNavView;
         if (bottomNavigationView != null) {
-            mAppBarConfiguration = new AppBarConfiguration.Builder(
-                    R.id.nav_transform, R.id.nav_reflow, R.id.nav_slideshow)
-                    .build();
-            NavigationUI.setupActionBarWithNavController(this, navController, mAppBarConfiguration);
             NavigationUI.setupWithNavController(bottomNavigationView, navController);
         }
     }
@@ -61,12 +86,8 @@ public class MainActivity extends AppCompatActivity {
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         boolean result = super.onCreateOptionsMenu(menu);
-        // Using findViewById because NavigationView exists in different layout files
-        // between w600dp and w1240dp
         NavigationView navView = findViewById(R.id.nav_view);
         if (navView == null) {
-            // The navigation drawer already has the items including the items in the overflow menu
-            // We only inflate the overflow menu if the navigation drawer isn't visible
             getMenuInflater().inflate(R.menu.overflow, menu);
         }
         return result;

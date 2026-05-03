@@ -1,17 +1,19 @@
-package com.roma.inmobiliariapro.data.model;
+package com.roma.inmobiliariapro.data.model.response;
 
 import com.google.gson.annotations.SerializedName;
 import java.io.Serializable;
 
-public class Inquilino implements Serializable {
-    @SerializedName("idInquilino")
+public class Propietario implements Serializable {
+    @SerializedName("idPropietario")
     private int id;
     private String nombre;
     private String apellido;
     private String dni;
     private String telefono;
     private String email;
+    private String clave;
 
+    // Getters y Setters
     public int getId() { return id; }
     public void setId(int id) { this.id = id; }
     public String getNombre() { return nombre; }
@@ -24,4 +26,6 @@ public class Inquilino implements Serializable {
     public void setTelefono(String telefono) { this.telefono = telefono; }
     public String getEmail() { return email; }
     public void setEmail(String email) { this.email = email; }
+    public String getClave() { return clave; }
+    public void setClave(String clave) { this.clave = clave; }
 }

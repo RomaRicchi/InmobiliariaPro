@@ -1,9 +1,10 @@
 package com.roma.inmobiliariapro.data.api;
 
-import com.roma.inmobiliariapro.data.model.Contrato;
-import com.roma.inmobiliariapro.data.model.Inmueble;
-import com.roma.inmobiliariapro.data.model.Pago;
-import com.roma.inmobiliariapro.data.model.Propietario;
+import com.roma.inmobiliariapro.data.model.request.UpdatePasswordRequest;
+import com.roma.inmobiliariapro.data.model.response.Contrato;
+import com.roma.inmobiliariapro.data.model.response.Inmueble;
+import com.roma.inmobiliariapro.data.model.response.Pago;
+import com.roma.inmobiliariapro.data.model.response.Propietario;
 
 import java.util.List;
 
@@ -38,9 +39,8 @@ public interface ApiService {
     @POST("api/Propietarios/email")
     Call<String> resetearContrasena(@Field("email") String email);
 
-    @FormUrlEncoded
     @PUT("api/Propietarios/changePassword")
-    Call<Void> cambiarContrasena(@Field("currentPassword") String currentPassword, @Field("newPassword") String newPassword);
+    Call<Void> cambiarContrasena(@Body UpdatePasswordRequest request);
 
     // --- Inmuebles ---
     @GET("api/Inmuebles")

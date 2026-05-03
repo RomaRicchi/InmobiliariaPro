@@ -11,10 +11,12 @@ import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.roma.inmobiliariapro.data.model.response.Inmueble;
 import com.roma.inmobiliariapro.databinding.FragmentTransformBinding;
-import com.roma.inmobiliariapro.ui.inmuebles.InmuebleAdapter;
+import com.roma.inmobiliariapro.ui.adapters.InmuebleAdapter;
 
 import java.util.ArrayList;
+import java.util.List;
 
 public class TransformFragment extends Fragment {
 
@@ -35,7 +37,7 @@ public class TransformFragment extends Fragment {
         adapter = new InmuebleAdapter(new ArrayList<>(), getContext());
         recyclerView.setAdapter(adapter);
 
-        transformViewModel.getInmuebles().observe(getViewLifecycleOwner(), inmuebles -> {
+        transformViewModel.getInmuebles().observe(getViewLifecycleOwner(), (List<Inmueble> inmuebles) -> {
             if (inmuebles != null) {
                 adapter = new InmuebleAdapter(inmuebles, getContext());
                 recyclerView.setAdapter(adapter);

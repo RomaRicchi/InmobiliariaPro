@@ -4,7 +4,7 @@ import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 import com.roma.inmobiliariapro.data.api.ApiService;
 import com.roma.inmobiliariapro.data.api.RetrofitClient;
-import com.roma.inmobiliariapro.data.model.Propietario;
+import com.roma.inmobiliariapro.data.model.response.Propietario;
 import com.roma.inmobiliariapro.utils.SessionManager;
 import retrofit2.Call;
 import retrofit2.Callback;

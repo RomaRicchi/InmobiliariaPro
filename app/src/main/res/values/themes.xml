@@ -13,7 +13,7 @@
         <item name="android:statusBarColor">@color/statusBarColor</item>
     </style>
 
-    <style name="Theme.InmobiliariaPro.NoActionBar">
+    <style name="Theme.InmobiliariaPro.NoActionBar" parent="Theme.InmobiliariaPro">
         <item name="windowActionBar">false</item>
         <item name="windowNoTitle">true</item>
     </style>

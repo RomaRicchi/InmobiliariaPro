@@ -6,6 +6,7 @@ import android.content.SharedPreferences;
 public class SessionManager {
     private static final String PREF_NAME = "InmobiliariaProPrefs";
     private static final String KEY_TOKEN = "auth_token";
+    private static final String KEY_DARK_MODE = "dark_mode";
     private SharedPreferences sharedPreferences;
     private SharedPreferences.Editor editor;
     private Context context;
@@ -23,6 +24,15 @@ public class SessionManager {
 
     public String getToken() {
         return sharedPreferences.getString(KEY_TOKEN, null);
+    }
+
+    public void setDarkMode(boolean isDarkMode) {
+        editor.putBoolean(KEY_DARK_MODE, isDarkMode);
+        editor.apply();
+    }
+
+    public boolean isDarkMode() {
+        return sharedPreferences.getBoolean(KEY_DARK_MODE, false);
     }
 
     public void clearSession() {

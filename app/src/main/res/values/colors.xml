@@ -1,26 +1,15 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-
-    <!-- PRIMARY -->
-    <color name="primary">#4BBCF4</color>
+    <!-- MODO CLARO -->
+    <color name="primary">#2196F3</color> <!-- Azul Brillante -->
     <color name="onPrimary">#FFFFFF</color>
-
-    <!-- SECONDARY -->
-    <color name="secondary">#61C0BF</color>
+    <color name="secondary">#03A9F4</color>
     <color name="onSecondary">#FFFFFF</color>
-
-    <!-- BACKGROUND -->
-    <color name="background">#BBDED6</color>
-    <color name="onBackground">#1C1C1C</color>
-
-    <!-- SURFACE -->
-    <color name="surface">#FAE3D9</color>
-    <color name="onSurface">#1C1C1C</color>
-
-    <!-- TERTIARY -->
-    <color name="tertiary">#FFB6B9</color>
-    <color name="onTertiary">#1C1C1C</color>
-
-    <color name="statusBarColor">#4BBCF4</color>
-
+    <color name="background">#FFFFFF</color> <!-- Blanco Puro -->
+    <color name="onBackground">#212121</color>
+    <color name="surface">#F5F5F5</color>
+    <color name="onSurface">#212121</color>
+    <color name="tertiary">#FF4081</color>
+    <color name="onTertiary">#FFFFFF</color>
+    <color name="statusBarColor">#1976D2</color>
 </resources>

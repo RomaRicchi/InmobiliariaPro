@@ -85,7 +85,16 @@
             android:id="@+id/btnEditarGuardar"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Editar"/>
+            android:text="Editar"
+            android:layout_marginBottom="16dp"/>
+
+        <com.google.android.material.materialswitch.MaterialSwitch
+            android:id="@+id/switchDarkMode"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Modo Oscuro"
+            android:layout_marginTop="16dp"
+            android:padding="8dp"/>
 
     </LinearLayout>
 </ScrollView>

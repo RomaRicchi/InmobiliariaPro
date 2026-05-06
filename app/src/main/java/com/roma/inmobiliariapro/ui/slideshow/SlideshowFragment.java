@@ -7,33 +7,51 @@ import android.view.ViewGroup;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
+import androidx.appcompat.app.AppCompatDelegate;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
 
 import com.roma.inmobiliariapro.data.model.response.Propietario;
 import com.roma.inmobiliariapro.databinding.FragmentSlideshowBinding;
+import com.roma.inmobiliariapro.utils.SessionManager;
 
 public class SlideshowFragment extends Fragment {
 
     private FragmentSlideshowBinding binding;
     private SlideshowViewModel slideshowViewModel;
+    private SessionManager sessionManager;
     private boolean isEditing = false;
     private Propietario currentPropietario;
 
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
         slideshowViewModel = new ViewModelProvider(this).get(SlideshowViewModel.class);
+        sessionManager = new SessionManager(requireContext());
 
         binding = FragmentSlideshowBinding.inflate(inflater, container, false);
         View root = binding.getRoot();
 
+        setupDarkModeSwitch();
         setupObservers();
         setupListeners();
 
         slideshowViewModel.cargarPerfil();
 
         return root;
+    }
+
+    private void setupDarkModeSwitch() {
+        binding.switchDarkMode.setChecked(sessionManager.isDarkMode());
+        binding.switchDarkMode.setOnCheckedChangeListener((buttonView, isChecked) -> {
+            if (isChecked != sessionManager.isDarkMode()) {
+                sessionManager.setDarkMode(isChecked);
+                if (isChecked) {
+                    AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES);
+                } else {
+                    AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO);
+                }
+            }
+        });
     }
 
     private void setupObservers() {
@@ -65,7 +83,6 @@ public class SlideshowFragment extends Fragment {
         binding.etNombre.setEnabled(enabled);
         binding.etApellido.setEnabled(enabled);
         binding.etTelefono.setEnabled(enabled);
-        // DNI y Email suelen ser solo lectura en este tipo de sistemas
     }
 
     private void guardarCambios() {

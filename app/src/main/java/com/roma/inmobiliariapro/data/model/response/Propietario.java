@@ -6,11 +6,23 @@ import java.io.Serializable;
 public class Propietario implements Serializable {
     @SerializedName("idPropietario")
     private int id;
+    
+    @SerializedName("nombre")
     private String nombre;
+    
+    @SerializedName("apellido")
     private String apellido;
+    
+    @SerializedName("dni")
     private String dni;
+    
+    @SerializedName("telefono")
     private String telefono;
+    
+    @SerializedName("email")
     private String email;
+    
+    @SerializedName("clave")
     private String clave;
 
     // Getters y Setters

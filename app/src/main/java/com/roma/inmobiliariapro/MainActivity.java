@@ -1,5 +1,6 @@
 package com.roma.inmobiliariapro;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.MenuItem;
 import android.view.Menu;
@@ -13,6 +14,7 @@ import com.google.android.material.snackbar.Snackbar;
 import com.google.android.material.navigation.NavigationView;
 
 import androidx.annotation.NonNull;
+import androidx.appcompat.app.AppCompatDelegate;
 import androidx.navigation.NavController;
 import androidx.navigation.Navigation;
 import androidx.navigation.fragment.NavHostFragment;
@@ -22,14 +24,23 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import com.roma.inmobiliariapro.data.repository.PropietarioRepository;
 import com.roma.inmobiliariapro.databinding.ActivityMainBinding;
+import com.roma.inmobiliariapro.ui.login.LoginActivity;
 import com.roma.inmobiliariapro.utils.SessionManager;
 
 public class MainActivity extends AppCompatActivity {
 
     private AppBarConfiguration mAppBarConfiguration;
+    private SessionManager sessionManager;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        sessionManager = new SessionManager(this);
+        if (sessionManager.isDarkMode()) {
+            AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES);
+        } else {
+            AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO);
+        }
+        
         super.onCreate(savedInstanceState);
 
         ActivityMainBinding binding = ActivityMainBinding.inflate(getLayoutInflater());
@@ -55,12 +66,24 @@ public class MainActivity extends AppCompatActivity {
         if (navigationView != null) {
             NavigationUI.setupWithNavController(navigationView, navController);
 
+            // Manejo del Logout
+            navigationView.setNavigationItemSelectedListener(item -> {
+                if (item.getItemId() == R.id.nav_logout) {
+                    logout();
+                    return true;
+                }
+                boolean handled = NavigationUI.onNavDestinationSelected(item, navController);
+                if (handled) {
+                    binding.drawerLayout.closeDrawers();
+                }
+                return handled;
+            });
+
             View headerView = navigationView.getHeaderView(0);
             TextView name = headerView.findViewById(R.id.textName);
             TextView email = headerView.findViewById(R.id.textEmail);
             ImageView profileImage = headerView.findViewById(R.id.imageProfile);
 
-            SessionManager sessionManager = new SessionManager(this);
             PropietarioRepository repository = new PropietarioRepository(sessionManager);
 
             repository.obtenerPerfil().observe(this, propietario -> {
@@ -81,6 +104,14 @@ public class MainActivity extends AppCompatActivity {
         if (bottomNavigationView != null) {
             NavigationUI.setupWithNavController(bottomNavigationView, navController);
         }
+    }
+
+    private void logout() {
+        sessionManager.clearSession();
+        Intent intent = new Intent(this, LoginActivity.class);
+        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+        startActivity(intent);
+        finish();
     }
 
     @Override

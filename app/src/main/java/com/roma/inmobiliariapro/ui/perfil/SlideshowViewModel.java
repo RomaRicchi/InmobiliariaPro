@@ -1,4 +1,4 @@
-package com.roma.inmobiliariapro.ui.slideshow;
+package com.roma.inmobiliariapro.ui.perfil;
 
 import android.app.Application;
 import androidx.annotation.NonNull;

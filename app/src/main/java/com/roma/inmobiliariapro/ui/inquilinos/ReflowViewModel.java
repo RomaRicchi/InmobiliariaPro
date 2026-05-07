@@ -1,4 +1,4 @@
-package com.roma.inmobiliariapro.ui.reflow;
+package com.roma.inmobiliariapro.ui.inquilinos;
 
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;

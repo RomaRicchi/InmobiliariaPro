@@ -1,15 +1,21 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <!-- MODO CLARO -->
-    <color name="primary">#2196F3</color> <!-- Azul Brillante -->
+    <!-- PALETA DE COLORES -->
+    <color name="primary">#880E4F</color> <!-- Bordó fuerte -->
     <color name="onPrimary">#FFFFFF</color>
-    <color name="secondary">#03A9F4</color>
+    <color name="secondary">#AD1457</color>
     <color name="onSecondary">#FFFFFF</color>
-    <color name="background">#FFFFFF</color> <!-- Blanco Puro -->
+    <color name="background">#FFFFFF</color>
     <color name="onBackground">#212121</color>
     <color name="surface">#F5F5F5</color>
     <color name="onSurface">#212121</color>
-    <color name="tertiary">#FF4081</color>
+    <color name="tertiary">#C62828</color>
     <color name="onTertiary">#FFFFFF</color>
-    <color name="statusBarColor">#1976D2</color>
+    <color name="statusBarColor">#560027</color> <!-- Bordó muy oscuro -->
+    <color name="white">#FFFFFF</color>
+
+    <!-- Colores auxiliares -->
+    <color name="bordo_clarito">#FADBD8</color>
+    <color name="bordo_oscuro">#880E4F</color>
+    <color name="bordo_fuerte">#641E16</color>
 </resources>

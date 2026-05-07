@@ -1,4 +1,4 @@
-package com.roma.inmobiliariapro.ui.transform;
+package com.roma.inmobiliariapro.ui.inmuebles;
 
 import android.app.Application;
 import androidx.annotation.NonNull;
@@ -9,12 +9,12 @@ import com.roma.inmobiliariapro.data.repository.InmuebleRepository;
 import com.roma.inmobiliariapro.utils.SessionManager;
 import java.util.List;
 
-public class TransformViewModel extends AndroidViewModel {
+public class InmuebleViewModel extends AndroidViewModel {
 
     private InmuebleRepository repository;
     private LiveData<List<Inmueble>> mInmuebles;
 
-    public TransformViewModel(@NonNull Application application) {
+    public InmuebleViewModel(@NonNull Application application) {
         super(application);
         SessionManager sessionManager = new SessionManager(application);
         repository = new InmuebleRepository(sessionManager);

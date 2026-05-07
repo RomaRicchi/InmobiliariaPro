@@ -12,21 +12,38 @@
         tools:layout="@layout/fragment_inicio" />
 
     <fragment
-        android:id="@+id/nav_transform"
-        android:name="com.roma.inmobiliariapro.ui.transform.TransformFragment"
+        android:id="@+id/nav_inmuebles"
+        android:name="com.roma.inmobiliariapro.ui.inmuebles.InmuebleFragment"
         android:label="@string/menu_inmuebles"
-        tools:layout="@layout/fragment_transform" />
+        tools:layout="@layout/fragment_inmueble">
+        <action
+            android:id="@+id/action_nav_inmuebles_to_inmuebleDetalleFragment"
+            app:destination="@+id/inmuebleDetalleFragment" />
+    </fragment>
 
     <fragment
-        android:id="@+id/nav_reflow"
-        android:name="com.roma.inmobiliariapro.ui.reflow.ReflowFragment"
-        android:label="@string/menu_reflow"
+        android:id="@+id/inmuebleDetalleFragment"
+        android:name="com.roma.inmobiliariapro.ui.inmuebles.InmuebleDetalleFragment"
+        android:label="Detalle Inmueble"
+        tools:layout="@layout/fragment_inmueble_detalle">
+        <argument
+            android:name="inmueble"
+            app:argType="com.roma.inmobiliariapro.data.model.response.Inmueble" />
+        <action
+            android:id="@+id/action_inmuebleDetalleFragment_to_nav_inmuebles"
+            app:destination="@id/nav_inmuebles" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/nav_inquilinos"
+        android:name="com.roma.inmobiliariapro.ui.inquilinos.ReflowFragment"
+        android:label="@string/menu_inquilinos"
         tools:layout="@layout/fragment_reflow" />
 
     <fragment
-        android:id="@+id/nav_slideshow"
-        android:name="com.roma.inmobiliariapro.ui.slideshow.SlideshowFragment"
-        android:label="@string/menu_slideshow"
+        android:id="@+id/nav_perfil"
+        android:name="com.roma.inmobiliariapro.ui.perfil.SlideshowFragment"
+        android:label="@string/menu_perfil"
         tools:layout="@layout/fragment_slideshow" />
 
     <fragment

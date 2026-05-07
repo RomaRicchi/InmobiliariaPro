@@ -1,4 +1,4 @@
-package com.roma.inmobiliariapro.ui.reflow;
+package com.roma.inmobiliariapro.ui.inquilinos;
 
 import android.os.Bundle;
 import android.view.LayoutInflater;

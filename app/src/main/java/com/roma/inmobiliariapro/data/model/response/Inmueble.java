@@ -56,7 +56,8 @@ public class Inmueble implements Serializable {
 
     public String getImagenFullUrl() {
         if (imagen != null && !imagen.isEmpty()) {
-            return "https://capacitacion.alwaysdata.net" + imagen.replace("\\", "/");
+            String urlMod = "https://capacitacion.alwaysdata.net/" + imagen.replace("\\", "/");
+            return urlMod.replace("//","/");
         }
         return null;
     }

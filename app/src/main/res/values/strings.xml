@@ -9,8 +9,8 @@
 
     <string name="menu_inicio">Inicio</string>
     <string name="menu_inmuebles">Inmuebles</string>
-    <string name="menu_reflow">Inquilinos</string>
-    <string name="menu_slideshow">Perfil</string>
+    <string name="menu_inquilinos">Inquilinos</string>
+    <string name="menu_perfil">Perfil</string>
     <string name="menu_settings">Ajustes</string>
     <string name="menu_logout">Cerrar Sesión</string>
 

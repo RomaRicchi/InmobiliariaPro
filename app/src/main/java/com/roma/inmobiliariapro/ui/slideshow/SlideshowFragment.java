@@ -65,6 +65,20 @@ public class SlideshowFragment extends Fragment {
                 binding.etEmail.setText(propietario.getEmail());
             }
         });
+
+        slideshowViewModel.getError().observe(getViewLifecycleOwner(), error -> {
+            if (error != null) {
+                Toast.makeText(getContext(), error, Toast.LENGTH_LONG).show();
+            }
+        });
+
+        slideshowViewModel.getPasswordChanged().observe(getViewLifecycleOwner(), success -> {
+            if (success) {
+                Toast.makeText(getContext(), "Contraseña cambiada con éxito", Toast.LENGTH_SHORT).show();
+                binding.etPasswordActual.setText("");
+                binding.etPasswordNueva.setText("");
+            }
+        });
     }
 
     private void setupListeners() {
@@ -83,16 +97,46 @@ public class SlideshowFragment extends Fragment {
         binding.etNombre.setEnabled(enabled);
         binding.etApellido.setEnabled(enabled);
         binding.etTelefono.setEnabled(enabled);
+        
+        // Mostrar/Ocultar campos de contraseña al editar
+        int visibility = enabled ? View.VISIBLE : View.GONE;
+        binding.tilPasswordActual.setVisibility(visibility);
+        binding.tilPasswordNueva.setVisibility(visibility);
+        
+        if (!enabled) {
+            binding.etPasswordActual.setText("");
+            binding.etPasswordNueva.setText("");
+        }
     }
 
     private void guardarCambios() {
         if (currentPropietario != null) {
-            currentPropietario.setNombre(binding.etNombre.getText().toString());
-            currentPropietario.setApellido(binding.etApellido.getText().toString());
-            currentPropietario.setTelefono(binding.etTelefono.getText().toString());
+            String nombre = binding.etNombre.getText().toString();
+            String apellido = binding.etApellido.getText().toString();
+            String telefono = binding.etTelefono.getText().toString();
+            String passActual = binding.etPasswordActual.getText().toString();
+            String passNueva = binding.etPasswordNueva.getText().toString();
 
+            if (nombre.isEmpty() || apellido.isEmpty() || telefono.isEmpty()) {
+                Toast.makeText(getContext(), "Complete los campos obligatorios", Toast.LENGTH_SHORT).show();
+                return;
+            }
+
+            // Actualizar datos básicos
+            currentPropietario.setNombre(nombre);
+            currentPropietario.setApellido(apellido);
+            currentPropietario.setTelefono(telefono);
             slideshowViewModel.actualizarPerfil(currentPropietario);
-            
+
+            // Manejar cambio de contraseña si se ingresó algo en "Nueva"
+            if (!passNueva.isEmpty()) {
+                if (passActual.isEmpty()) {
+                    binding.etPasswordActual.setError("Debe ingresar la contraseña actual");
+                    return;
+                }
+                slideshowViewModel.cambiarContrasena(passActual, passNueva);
+            }
+
             setEditingEnabled(false);
             binding.btnEditarGuardar.setText("Editar");
             isEditing = false;

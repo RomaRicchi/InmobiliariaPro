@@ -26,4 +26,6 @@
 
     <string name="fab_content_description">Acción rápida</string>
     <string name="image_view_item_transform_content_description">Imagen del inmueble</string>
+
+    <string name="inmobiliaria_telefono">2664843013</string>
 </resources>

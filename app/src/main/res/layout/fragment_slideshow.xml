@@ -23,31 +23,36 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:hint="Nombre"
-            android:layout_marginBottom="12dp">
+            android:layout_marginBottom="12dp"
+            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox">
             <com.google.android.material.textfield.TextInputEditText
                 android:id="@+id/etNombre"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:inputType="textPersonName"/>
+                android:inputType="textPersonName"
+                android:enabled="false"/>
         </com.google.android.material.textfield.TextInputLayout>
 
         <com.google.android.material.textfield.TextInputLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:hint="Apellido"
-            android:layout_marginBottom="12dp">
+            android:layout_marginBottom="12dp"
+            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox">
             <com.google.android.material.textfield.TextInputEditText
                 android:id="@+id/etApellido"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:inputType="textPersonName"/>
+                android:inputType="textPersonName"
+                android:enabled="false"/>
         </com.google.android.material.textfield.TextInputLayout>
 
         <com.google.android.material.textfield.TextInputLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:hint="DNI"
-            android:layout_marginBottom="12dp">
+            android:layout_marginBottom="12dp"
+            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox">
             <com.google.android.material.textfield.TextInputEditText
                 android:id="@+id/etDni"
                 android:layout_width="match_parent"
@@ -60,19 +65,55 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:hint="Teléfono"
-            android:layout_marginBottom="12dp">
+            android:layout_marginBottom="12dp"
+            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox">
             <com.google.android.material.textfield.TextInputEditText
                 android:id="@+id/etTelefono"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:inputType="phone"/>
+                android:inputType="phone"
+                android:enabled="false"/>
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <!-- Sección Contraseña -->
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/tilPasswordActual"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="Contraseña Actual"
+            android:layout_marginBottom="12dp"
+            android:visibility="gone"
+            app:passwordToggleEnabled="true"
+            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox">
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/etPasswordActual"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:inputType="textPassword"/>
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/tilPasswordNueva"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="Nueva Contraseña"
+            android:layout_marginBottom="12dp"
+            android:visibility="gone"
+            app:passwordToggleEnabled="true"
+            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox">
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/etPasswordNueva"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:inputType="textPassword"/>
         </com.google.android.material.textfield.TextInputLayout>
 
         <com.google.android.material.textfield.TextInputLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:hint="Email"
-            android:layout_marginBottom="24dp">
+            android:layout_marginBottom="24dp"
+            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox">
             <com.google.android.material.textfield.TextInputEditText
                 android:id="@+id/etEmail"
                 android:layout_width="match_parent"
@@ -86,7 +127,8 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="Editar"
-            android:layout_marginBottom="16dp"/>
+            android:layout_marginBottom="16dp"
+            style="@style/Widget.MaterialComponents.Button"/>
 
         <com.google.android.material.materialswitch.MaterialSwitch
             android:id="@+id/switchDarkMode"

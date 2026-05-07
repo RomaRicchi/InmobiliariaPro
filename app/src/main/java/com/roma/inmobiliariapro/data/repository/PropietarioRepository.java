@@ -4,6 +4,7 @@ import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 import com.roma.inmobiliariapro.data.api.ApiService;
 import com.roma.inmobiliariapro.data.api.RetrofitClient;
+import com.roma.inmobiliariapro.data.model.request.UpdatePasswordRequest;
 import com.roma.inmobiliariapro.data.model.response.Propietario;
 import com.roma.inmobiliariapro.utils.SessionManager;
 import retrofit2.Call;
@@ -47,6 +48,23 @@ public class PropietarioRepository {
 
             @Override
             public void onFailure(Call<Propietario> call, Throwable t) {
+                success.setValue(false);
+            }
+        });
+        return success;
+    }
+
+    public LiveData<Boolean> cambiarPassword(String actual, String nueva) {
+        MutableLiveData<Boolean> success = new MutableLiveData<>();
+        UpdatePasswordRequest request = new UpdatePasswordRequest(actual, nueva);
+        apiService.cambiarContrasena(request).enqueue(new Callback<Void>() {
+            @Override
+            public void onResponse(Call<Void> call, Response<Void> response) {
+                success.setValue(response.isSuccessful());
+            }
+
+            @Override
+            public void onFailure(Call<Void> call, Throwable t) {
                 success.setValue(false);
             }
         });

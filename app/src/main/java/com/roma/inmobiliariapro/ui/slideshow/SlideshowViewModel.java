@@ -14,6 +14,7 @@ public class SlideshowViewModel extends AndroidViewModel {
     private PropietarioRepository repository;
     private MutableLiveData<Propietario> mPropietario = new MutableLiveData<>();
     private MutableLiveData<String> mError = new MutableLiveData<>();
+    private MutableLiveData<Boolean> mPasswordChanged = new MutableLiveData<>();
 
     public SlideshowViewModel(@NonNull Application application) {
         super(application);
@@ -23,6 +24,14 @@ public class SlideshowViewModel extends AndroidViewModel {
 
     public LiveData<Propietario> getPropietario() {
         return mPropietario;
+    }
+
+    public LiveData<String> getError() {
+        return mError;
+    }
+
+    public LiveData<Boolean> getPasswordChanged() {
+        return mPasswordChanged;
     }
 
     public void cargarPerfil() {
@@ -40,7 +49,18 @@ public class SlideshowViewModel extends AndroidViewModel {
             if (success) {
                 mPropietario.setValue(p);
             } else {
-                mError.setValue("Error al actualizar");
+                mError.setValue("Error al actualizar el perfil");
+            }
+        });
+    }
+
+    public void cambiarContrasena(String actual, String nueva) {
+        repository.cambiarPassword(actual, nueva).observeForever(success -> {
+            if (success) {
+                mPasswordChanged.setValue(true);
+            } else {
+                mError.setValue("Error al cambiar la contraseña. Verifique la actual.");
+                mPasswordChanged.setValue(false);
             }
         });
     }

@@ -1,5 +1,7 @@
 package com.roma.inmobiliariapro.data.repository;
 
+import android.util.Log;
+
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 import com.roma.inmobiliariapro.data.api.ApiService;
@@ -65,6 +67,7 @@ public class PropietarioRepository {
 
             @Override
             public void onFailure(Call<Void> call, Throwable t) {
+                Log.e("PropietarioRepository", "Error al cambiar la contraseña", t);
                 success.setValue(false);
             }
         });

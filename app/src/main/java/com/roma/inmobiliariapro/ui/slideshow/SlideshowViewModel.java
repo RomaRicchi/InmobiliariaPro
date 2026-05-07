@@ -59,7 +59,6 @@ public class SlideshowViewModel extends AndroidViewModel {
             if (success) {
                 mPasswordChanged.setValue(true);
             } else {
-                mError.setValue("Error al cambiar la contraseña. Verifique la actual.");
                 mPasswordChanged.setValue(false);
             }
         });

@@ -7,7 +7,8 @@
     <string name="nav_header_desc">Navigation header</string>
     <string name="action_settings">Ajustes</string>
 
-    <string name="menu_transform">Inmuebles</string>
+    <string name="menu_inicio">Inicio</string>
+    <string name="menu_inmuebles">Inmuebles</string>
     <string name="menu_reflow">Inquilinos</string>
     <string name="menu_slideshow">Perfil</string>
     <string name="menu_settings">Ajustes</string>

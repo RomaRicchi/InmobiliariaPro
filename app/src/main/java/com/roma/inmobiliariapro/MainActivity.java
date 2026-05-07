@@ -35,6 +35,12 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         sessionManager = new SessionManager(this);
+
+        if (!sessionManager.isLoggedIn()) {
+            logout();
+            return;
+        }
+
         if (sessionManager.isDarkMode()) {
             AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES);
         } else {
@@ -56,7 +62,7 @@ public class MainActivity extends AppCompatActivity {
         NavController navController = navHostFragment.getNavController();
 
         mAppBarConfiguration = new AppBarConfiguration.Builder(
-                R.id.nav_transform, R.id.nav_reflow, R.id.nav_slideshow, R.id.nav_settings)
+                R.id.nav_inicio, R.id.nav_transform, R.id.nav_reflow, R.id.nav_slideshow, R.id.nav_settings)
                 .setOpenableLayout(binding.drawerLayout)
                 .build();
 
@@ -87,16 +93,18 @@ public class MainActivity extends AppCompatActivity {
             PropietarioRepository repository = new PropietarioRepository(sessionManager);
 
             repository.obtenerPerfil().observe(this, propietario -> {
-                if (propietario != null) {
-                    name.setText(propietario.getNombre() + " " + propietario.getApellido());
-                    email.setText(propietario.getEmail());
-                    
-                    // Cargar imagen de perfil con Glide
-                    Glide.with(this)
-                            .load(R.mipmap.ic_launcher_round) // Usamos el launcher como placeholder/default
-                            .circleCrop()
-                            .into(profileImage);
+                if (propietario == null) {
+                    logout();
+                    return;
                 }
+                name.setText(propietario.getNombre() + " " + propietario.getApellido());
+                email.setText(propietario.getEmail());
+
+                // Cargar imagen de perfil con Glide
+                Glide.with(this)
+                        .load(R.mipmap.ic_launcher_round) // Usamos el launcher como placeholder/default
+                        .circleCrop()
+                        .into(profileImage);
             });
         }
 

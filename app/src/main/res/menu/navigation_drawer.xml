@@ -5,9 +5,13 @@
 
     <group android:checkableBehavior="single">
         <item
+            android:id="@+id/nav_inicio"
+            android:icon="@android:drawable/ic_menu_mapmode"
+            android:title="@string/menu_inicio" />
+        <item
             android:id="@+id/nav_transform"
-            android:icon="@drawable/ic_camera_black_24dp"
-            android:title="@string/menu_transform" />
+            android:icon="@android:drawable/ic_dialog_dialer"
+            android:title="@string/menu_inmuebles" />
         <item
             android:id="@+id/nav_reflow"
             android:icon="@drawable/ic_gallery_black_24dp"

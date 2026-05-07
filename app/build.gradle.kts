@@ -53,6 +53,11 @@ dependencies {
 
     // Glide
     implementation(libs.glide)
+    implementation(libs.legacy.support.v4)
+
+    // Google Maps
+    implementation(libs.play.services.maps)
+    implementation(libs.fragment)
 
     testImplementation(libs.junit)
     androidTestImplementation(libs.ext.junit)

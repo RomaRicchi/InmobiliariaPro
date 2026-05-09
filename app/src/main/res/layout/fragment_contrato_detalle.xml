@@ -1,0 +1,188 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/bordo_clarito"
+    android:fillViewport="true"
+    tools:context=".ui.contratos.ContratoDetalleFragment">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:padding="20dp">
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Detalle del Contrato"
+            android:textSize="26sp"
+            android:textStyle="bold"
+            android:textColor="@color/bordo_oscuro"
+            android:gravity="center"
+            android:layout_marginBottom="24dp"/>
+
+        <!-- Card de Detalles (Campos ordenados Dirección -> Inquilino -> Monto -> Fechas) -->
+        <com.google.android.material.card.MaterialCardView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:cardCornerRadius="24dp"
+            app:cardElevation="4dp"
+            app:strokeWidth="0dp">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:padding="28dp">
+
+                <!-- Título de sección -->
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Información General"
+                    android:textColor="#757575"
+                    android:textSize="12sp"
+                    android:textStyle="bold"
+                    android:textAllCaps="true"
+                    android:layout_marginBottom="16dp"/>
+
+                <!-- Dirección -->
+                <com.google.android.material.textfield.TextInputLayout
+                    style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:hint="Ubicación del Inmueble"
+                    android:layout_marginBottom="14dp"
+                    app:boxStrokeColor="@color/bordo_oscuro"
+                    app:hintTextColor="@color/bordo_oscuro"
+                    app:startIconDrawable="@android:drawable/ic_menu_directions"
+                    app:startIconTint="@color/bordo_oscuro">
+                    <com.google.android.material.textfield.TextInputEditText
+                        android:id="@+id/etContratoDireccion"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:enabled="false"
+                        android:text="Belgrano 123"
+                        android:textColor="@color/bordo_oscuro"
+                        android:textStyle="bold"/>
+                </com.google.android.material.textfield.TextInputLayout>
+
+                <!-- Inquilino -->
+                <com.google.android.material.textfield.TextInputLayout
+                    style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:hint="Nombre del Inquilino"
+                    android:layout_marginBottom="14dp"
+                    app:boxStrokeColor="@color/bordo_oscuro"
+                    app:hintTextColor="@color/bordo_oscuro"
+                    app:startIconDrawable="@android:drawable/ic_menu_myplaces"
+                    app:startIconTint="@color/bordo_oscuro">
+                    <com.google.android.material.textfield.TextInputEditText
+                        android:id="@+id/etContratoInquilino"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:enabled="false"
+                        android:text="Lautaro"
+                        android:textColor="@color/bordo_oscuro"/>
+                </com.google.android.material.textfield.TextInputLayout>
+
+                <!-- Monto -->
+                <com.google.android.material.textfield.TextInputLayout
+                    style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:hint="Canon Locativo Mensual"
+                    android:layout_marginBottom="14dp"
+                    app:boxStrokeColor="@color/bordo_oscuro"
+                    app:hintTextColor="@color/bordo_oscuro"
+                    app:prefixText="$ "
+                    app:prefixTextColor="#B71C1C">
+                    <com.google.android.material.textfield.TextInputEditText
+                        android:id="@+id/etContratoMonto"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:enabled="false"
+                        android:text="324423.00"
+                        android:textColor="#B71C1C"
+                        android:textStyle="bold"/>
+                </com.google.android.material.textfield.TextInputLayout>
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:layout_marginTop="10dp"
+                    android:layout_marginBottom="20dp"
+                    android:background="#EEEEEE" />
+
+                <!-- Fechas (Bottom part of the JSON, now at the bottom of the list) -->
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:baselineAligned="false">
+
+                    <com.google.android.material.textfield.TextInputLayout
+                        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:hint="Finalización"
+                        android:layout_marginEnd="8dp"
+                        app:boxStrokeColor="@color/bordo_oscuro"
+                        app:hintTextColor="@color/bordo_oscuro">
+                        <com.google.android.material.textfield.TextInputEditText
+                            android:id="@+id/etContratoFechaFin"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:enabled="false"
+                            android:text="2020-07-03"
+                            android:textSize="13sp"
+                            android:textColor="@color/bordo_oscuro"/>
+                    </com.google.android.material.textfield.TextInputLayout>
+
+                    <com.google.android.material.textfield.TextInputLayout
+                        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:hint="Inicio"
+                        app:boxStrokeColor="@color/bordo_oscuro"
+                        app:hintTextColor="@color/bordo_oscuro">
+                        <com.google.android.material.textfield.TextInputEditText
+                            android:id="@+id/etContratoFechaInicio"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:enabled="false"
+                            android:text="2016-03-02"
+                            android:textSize="13sp"
+                            android:textColor="@color/bordo_oscuro"/>
+                    </com.google.android.material.textfield.TextInputLayout>
+                </LinearLayout>
+
+            </LinearLayout>
+        </com.google.android.material.card.MaterialCardView>
+
+        <!-- Botón Pagos -->
+        <Button
+            android:id="@+id/btnPagos"
+            android:layout_width="match_parent"
+            android:layout_height="68dp"
+            android:layout_marginTop="36dp"
+            android:text="CONSULTAR PAGOS"
+            android:textSize="16sp"
+            android:textStyle="bold"
+            android:letterSpacing="0.1"
+            app:icon="@android:drawable/ic_menu_view"
+            app:iconPadding="12dp"
+            app:iconGravity="textStart"
+            app:backgroundTint="@color/bordo_oscuro"
+            app:cornerRadius="20dp"
+            android:elevation="6dp"
+            style="@style/Widget.MaterialComponents.Button"/>
+
+    </LinearLayout>
+</ScrollView>

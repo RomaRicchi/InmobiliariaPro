@@ -1,14 +1,202 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="?android:attr/colorBackground"
     tools:context=".ui.inmuebles.InmuebleCreateFragment">
 
-    <!-- TODO: Update blank fragment layout -->
-    <TextView
+    <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:text="@string/hello_blank_fragment" />
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:padding="20dp">
 
-</FrameLayout>
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Alta de Inmueble"
+            android:textSize="26sp"
+            android:textStyle="bold"
+            android:textColor="@color/bordo_oscuro"
+            android:layout_marginBottom="24dp"
+            android:gravity="center"/>
+
+        <!-- Sección de Imagen -->
+        <com.google.android.material.card.MaterialCardView
+            android:id="@+id/cardImagenInmueble"
+            android:layout_width="match_parent"
+            android:layout_height="200dp"
+            android:layout_marginBottom="20dp"
+            app:cardCornerRadius="12dp"
+            app:cardElevation="4dp"
+            app:strokeWidth="1dp"
+            app:strokeColor="@color/bordo_oscuro">
+
+            <FrameLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
+
+                <ImageView
+                    android:id="@+id/ivInmuebleNueva"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:scaleType="centerCrop"
+                    android:src="@drawable/ic_gallery_black_24dp"
+                    android:contentDescription="Imagen a subir"
+                    android:padding="40dp"
+                    android:alpha="0.5"/>
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Toca para seleccionar imagen"
+                    android:layout_gravity="bottom|center_horizontal"
+                    android:layout_marginBottom="16dp"
+                    android:textColor="@color/bordo_oscuro"
+                    android:textStyle="bold"/>
+            </FrameLayout>
+        </com.google.android.material.card.MaterialCardView>
+
+        <!-- Formulario -->
+        <com.google.android.material.textfield.TextInputLayout
+            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="Dirección"
+            android:layout_marginBottom="12dp"
+            app:boxStrokeColor="@color/bordo_oscuro"
+            app:hintTextColor="@color/bordo_oscuro">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/etDireccionCreate"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:inputType="textPostalAddress" />
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:baselineAligned="false">
+
+            <com.google.android.material.textfield.TextInputLayout
+                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:hint="Uso"
+                android:layout_marginBottom="12dp"
+                android:layout_marginEnd="8dp"
+                app:boxStrokeColor="@color/bordo_oscuro"
+                app:hintTextColor="@color/bordo_oscuro">
+
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/etUsoCreate"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:inputType="text" />
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <com.google.android.material.textfield.TextInputLayout
+                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:hint="Tipo"
+                android:layout_marginBottom="12dp"
+                app:boxStrokeColor="@color/bordo_oscuro"
+                app:hintTextColor="@color/bordo_oscuro">
+
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/etTipoCreate"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:inputType="text" />
+            </com.google.android.material.textfield.TextInputLayout>
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:baselineAligned="false">
+
+            <com.google.android.material.textfield.TextInputLayout
+                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:hint="Ambientes"
+                android:layout_marginBottom="12dp"
+                android:layout_marginEnd="8dp"
+                app:boxStrokeColor="@color/bordo_oscuro"
+                app:hintTextColor="@color/bordo_oscuro">
+
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/etAmbientesCreate"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:inputType="number" />
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <com.google.android.material.textfield.TextInputLayout
+                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:hint="Superficie (m²)"
+                android:layout_marginBottom="12dp"
+                app:boxStrokeColor="@color/bordo_oscuro"
+                app:hintTextColor="@color/bordo_oscuro">
+
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/etSuperficieCreate"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:inputType="numberDecimal" />
+            </com.google.android.material.textfield.TextInputLayout>
+        </LinearLayout>
+
+        <com.google.android.material.textfield.TextInputLayout
+            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="Precio / Valor"
+            android:layout_marginBottom="12dp"
+            app:boxStrokeColor="@color/bordo_oscuro"
+            app:hintTextColor="@color/bordo_oscuro"
+            app:prefixText="$ ">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/etPrecioCreate"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:inputType="numberDecimal" />
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <com.google.android.material.materialswitch.MaterialSwitch
+            android:id="@+id/swDisponibleCreate"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Disponible"
+            android:layout_marginBottom="24dp"
+            android:checked="true"
+            android:padding="8dp"
+            app:thumbTint="@color/bordo_oscuro"
+            app:trackTint="@color/bordo_clarito"/>
+
+        <Button
+            android:id="@+id/btnGuardarInmueble"
+            android:layout_width="match_parent"
+            android:layout_height="60dp"
+            android:text="Guardar Inmueble"
+            android:textSize="18sp"
+            android:textStyle="bold"
+            app:backgroundTint="@color/bordo_oscuro"
+            app:cornerRadius="12dp"/>
+
+    </LinearLayout>
+</ScrollView>

@@ -22,8 +22,8 @@ public class Propietario implements Serializable {
     @SerializedName("email")
     private String email;
     
-    @SerializedName("clave")
-    private String clave;
+//    @SerializedName("clave")
+//    private String clave;
 
     // Getters y Setters
     public int getId() { return id; }
@@ -38,6 +38,10 @@ public class Propietario implements Serializable {
     public void setTelefono(String telefono) { this.telefono = telefono; }
     public String getEmail() { return email; }
     public void setEmail(String email) { this.email = email; }
-    public String getClave() { return clave; }
-    public void setClave(String clave) { this.clave = clave; }
+//    public String getClave() { return clave; }
+//    public void setClave(String clave) { this.clave = clave; }
+
+    public String getFullName() {
+        return nombre + " " + apellido;
+    }
 }

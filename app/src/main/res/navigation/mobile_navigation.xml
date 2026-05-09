@@ -42,13 +42,13 @@
 
     <fragment
         android:id="@+id/nav_perfil"
-        android:name="com.roma.inmobiliariapro.ui.perfil.SlideshowFragment"
+        android:name="com.roma.inmobiliariapro.ui.perfil.PerfilFragment"
         android:label="@string/menu_perfil"
-        tools:layout="@layout/fragment_slideshow" />
-
+        tools:layout="@layout/fragment_perfil" />
     <fragment
-        android:id="@+id/nav_settings"
-        android:name="com.roma.inmobiliariapro.ui.settings.SettingsFragment"
-        android:label="@string/menu_settings"
-        tools:layout="@layout/fragment_settings" />
+        android:id="@+id/nav_contratos"
+        android:name="com.roma.inmobiliariapro.ui.contratos.ContratoFragment"
+        android:label="@string/menu_contratos"
+        tools:layout="@layout/fragment_contrato" />
+
 </navigation>

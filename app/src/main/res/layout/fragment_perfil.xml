@@ -26,12 +26,13 @@
             android:hint="Nombre"
             android:layout_marginBottom="12dp"
             style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox">
+
             <com.google.android.material.textfield.TextInputEditText
                 android:id="@+id/etNombre"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:inputType="textPersonName"
-                android:enabled="false"/>
+                android:enabled="false"
+                android:inputType="textPersonName" />
         </com.google.android.material.textfield.TextInputLayout>
 
         <com.google.android.material.textfield.TextInputLayout
@@ -76,39 +77,6 @@
                 android:enabled="false"/>
         </com.google.android.material.textfield.TextInputLayout>
 
-        <!-- Sección Contraseña -->
-        <com.google.android.material.textfield.TextInputLayout
-            android:id="@+id/tilPasswordActual"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:hint="Contraseña Actual"
-            android:layout_marginBottom="12dp"
-            android:visibility="gone"
-            app:passwordToggleEnabled="true"
-            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox">
-            <com.google.android.material.textfield.TextInputEditText
-                android:id="@+id/etPasswordActual"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:inputType="textPassword"/>
-        </com.google.android.material.textfield.TextInputLayout>
-
-        <com.google.android.material.textfield.TextInputLayout
-            android:id="@+id/tilPasswordNueva"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:hint="Nueva Contraseña"
-            android:layout_marginBottom="12dp"
-            android:visibility="gone"
-            app:passwordToggleEnabled="true"
-            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox">
-            <com.google.android.material.textfield.TextInputEditText
-                android:id="@+id/etPasswordNueva"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:inputType="textPassword"/>
-        </com.google.android.material.textfield.TextInputLayout>
-
         <com.google.android.material.textfield.TextInputLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -125,19 +93,28 @@
 
         <Button
             android:id="@+id/btnEditarGuardar"
+            style="@style/Widget.MaterialComponents.Button"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Editar"
             android:layout_marginBottom="16dp"
-            style="@style/Widget.MaterialComponents.Button"/>
+            android:text="Editar" />
 
         <com.google.android.material.materialswitch.MaterialSwitch
             android:id="@+id/switchDarkMode"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Modo Oscuro"
             android:layout_marginTop="16dp"
-            android:padding="8dp"/>
+            android:layout_marginBottom="16dp"
+            android:padding="8dp"
+            android:text="Modo Oscuro" />
+
+        <Button
+            android:id="@+id/btnEditarPassword"
+            style="@style/Widget.MaterialComponents.Button"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            android:text="Editar contraseña" />
 
     </LinearLayout>
 </ScrollView>

@@ -1,6 +1,8 @@
 package com.roma.inmobiliariapro.data.api;
 
-import com.roma.inmobiliariapro.utils.SessionManager;
+import android.content.Context;
+
+import com.roma.inmobiliariapro.utils.SharedPreferesManager;
 import java.io.IOException;
 import okhttp3.Interceptor;
 import okhttp3.OkHttpClient;
@@ -15,10 +17,10 @@ public class RetrofitClient {
     private static final String BASE_URL = "https://capacitacion.alwaysdata.net/";
     private static Retrofit retrofit = null;
 
-    public static ApiService getService(SessionManager sessionManager) {
-        // Siempre creamos una instancia nueva si el token cambió o para asegurar que el interceptor
-        // use la instancia más reciente del sessionManager.
-        // O mejor aún, hacemos que el interceptor obtenga el token dinámicamente.
+    private static SharedPreferesManager sharedPreferesManager;
+
+    public static ApiService getService(Context context) {
+        sharedPreferesManager = new SharedPreferesManager(context.getApplicationContext());
         
         if (retrofit == null) {
             HttpLoggingInterceptor logging = new HttpLoggingInterceptor();
@@ -32,7 +34,7 @@ public class RetrofitClient {
                             Request original = chain.request();
                             Request.Builder requestBuilder = original.newBuilder();
                             
-                            String token = sessionManager.getToken();
+                            String token = sharedPreferesManager.getToken();
                             if (token != null && !token.isEmpty()) {
                                 // Limpiamos el token de posibles comillas si el ScalarConverter las dejó
                                 String cleanToken = token.replace("\"", "");
@@ -40,6 +42,8 @@ public class RetrofitClient {
                             }
 
                             Request request = requestBuilder.build();
+
+
                             return chain.proceed(request);
                         }
                     })

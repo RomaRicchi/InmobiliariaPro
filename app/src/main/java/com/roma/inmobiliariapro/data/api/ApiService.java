@@ -39,8 +39,9 @@ public interface ApiService {
     @POST("api/Propietarios/email")
     Call<String> resetearContrasena(@Field("email") String email);
 
+    @FormUrlEncoded
     @PUT("api/Propietarios/changePassword")
-    Call<Void> cambiarContrasena(@Body UpdatePasswordRequest request);
+    Call<Void> cambiarContrasena(@Field("currentPassoword") String currentPassword, @Field("newPassword") String newPassword);
 
     // --- Inmuebles ---
     @GET("api/Inmuebles")

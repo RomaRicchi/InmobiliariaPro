@@ -14,37 +14,37 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.roma.inmobiliariapro.data.model.response.Inmueble;
 import com.roma.inmobiliariapro.databinding.FragmentInmuebleBinding;
 import com.roma.inmobiliariapro.ui.adapters.InmuebleAdapter;
+import com.roma.inmobiliariapro.ui.viewsModels.InmuebleViewModel;
 
 import java.util.ArrayList;
 import java.util.List;
 
 public class InmuebleFragment extends Fragment {
-
     private FragmentInmuebleBinding binding;
+    private InmuebleViewModel vm;
     private InmuebleAdapter adapter;
 
-    public View onCreateView(@NonNull LayoutInflater inflater,
-                             ViewGroup container, Bundle savedInstanceState) {
-        InmuebleViewModel inmuebleViewModel =
-                new ViewModelProvider(this).get(InmuebleViewModel.class);
-
+    public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         binding = FragmentInmuebleBinding.inflate(inflater, container, false);
-        View root = binding.getRoot();
+        vm = new ViewModelProvider(requireActivity()).get(InmuebleViewModel.class);
 
-        RecyclerView recyclerView = binding.recyclerviewTransform;
+
+        RecyclerView recyclerView = binding.recyclerInmuebles;
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
         
-        adapter = new InmuebleAdapter(new ArrayList<>(), getContext());
+        adapter = new InmuebleAdapter(new ArrayList<>(), getContext(),"detalles");
         recyclerView.setAdapter(adapter);
 
-        inmuebleViewModel.getInmuebles().observe(getViewLifecycleOwner(), (List<Inmueble> inmuebles) -> {
-            if (inmuebles != null) {
-                adapter = new InmuebleAdapter(inmuebles, getContext());
+        vm.getInmueblesMutable().observe(getViewLifecycleOwner(), inmuebles -> {
+            if(inmuebles != null) {
+                adapter = new InmuebleAdapter(inmuebles, getContext(), "detalles");
                 recyclerView.setAdapter(adapter);
             }
         });
 
-        return root;
+        vm.getInmuebles();
+
+        return binding.getRoot();
     }
 
     @Override

@@ -17,9 +17,14 @@
             android:icon="@android:drawable/ic_dialog_dialer"
             android:title="@string/menu_inmuebles" />
         <item
+            android:id="@+id/nav_contratos"
+            android:icon="@drawable/ic_gallery_black_24dp"
+            android:title="@string/menu_contratos" />
+        <item
             android:id="@+id/nav_inquilinos"
             android:icon="@drawable/ic_gallery_black_24dp"
             android:title="@string/menu_inquilinos" />
+
 
     </group>
 

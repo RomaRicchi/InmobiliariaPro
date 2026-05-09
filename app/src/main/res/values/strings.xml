@@ -28,4 +28,7 @@
     <string name="image_view_item_transform_content_description">Imagen del inmueble</string>
 
     <string name="inmobiliaria_telefono">2664843013</string>
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="menu_contratos">Contratos</string>
 </resources>

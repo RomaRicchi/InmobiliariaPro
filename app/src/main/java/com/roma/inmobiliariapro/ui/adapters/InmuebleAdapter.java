@@ -16,10 +16,12 @@ import java.util.List;
 public class InmuebleAdapter extends RecyclerView.Adapter<InmuebleAdapter.ViewHolder> {
     private List<Inmueble> inmuebles;
     private Context context;
+    private String navigateTo;
 
-    public InmuebleAdapter(List<Inmueble> inmuebles, Context context) {
+    public InmuebleAdapter(List<Inmueble> inmuebles, Context context, String navigateTo) {
         this.inmuebles = inmuebles;
         this.context = context;
+        this.navigateTo = navigateTo.toUpperCase();
     }
 
     @NonNull
@@ -50,7 +52,14 @@ public class InmuebleAdapter extends RecyclerView.Adapter<InmuebleAdapter.ViewHo
         holder.itemView.setOnClickListener(v -> {
             Bundle bundle = new Bundle();
             bundle.putSerializable("inmueble", inmueble);
-            Navigation.findNavController(v).navigate(R.id.action_nav_inmuebles_to_inmuebleDetalleFragment, bundle);
+
+            if(navigateTo.equals("DETALLES")) {
+                Navigation.findNavController(v).navigate(R.id.action_nav_inmuebles_to_inmuebleDetalleFragment, bundle);
+            } else if (navigateTo.equals("CONTRATOS")) {
+                Navigation.findNavController(v).navigate(R.id.action_nav_inmuebles_to_inmuebleDetalleFragment, bundle);
+            } else {
+                Navigation.findNavController(v).navigate(R.id.action_nav_inmuebles_to_inmuebleDetalleFragment, bundle);
+            }
         });
     }
 

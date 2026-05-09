@@ -15,18 +15,19 @@ import com.bumptech.glide.Glide;
 import com.roma.inmobiliariapro.R;
 import com.roma.inmobiliariapro.data.model.response.Inmueble;
 import com.roma.inmobiliariapro.databinding.FragmentInmuebleDetalleBinding;
+import com.roma.inmobiliariapro.ui.viewsModels.InmuebleViewModel;
 
 import java.util.Locale;
 
 public class InmuebleDetalleFragment extends Fragment {
 
-    private InmuebleDetalleViewModel mViewModel;
+    private InmuebleViewModel vm;
     private FragmentInmuebleDetalleBinding binding;
 
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container,
                              @Nullable Bundle savedInstanceState) {
-        mViewModel = new ViewModelProvider(this).get(InmuebleDetalleViewModel.class);
+        vm = new ViewModelProvider(this).get(InmuebleViewModel.class);
         binding = FragmentInmuebleDetalleBinding.inflate(inflater, container, false);
         return binding.getRoot();
     }
@@ -39,7 +40,7 @@ public class InmuebleDetalleFragment extends Fragment {
         if (getArguments() != null) {
             Inmueble inmueble = (Inmueble) getArguments().getSerializable("inmueble");
             if (inmueble != null) {
-                mViewModel.setInmueble(inmueble);
+                vm.setInmueble(inmueble);
             }
         }
 
@@ -48,7 +49,7 @@ public class InmuebleDetalleFragment extends Fragment {
     }
 
     private void setupObservers() {
-        mViewModel.getInmueble().observe(getViewLifecycleOwner(), inmueble -> {
+        vm.getInmuebleMutable().observe(getViewLifecycleOwner(), inmueble -> {
             if (inmueble != null) {
                 binding.tvDetalleDireccion.setText(inmueble.getDireccion());
                 binding.tvDetallePrecio.setText(String.format(Locale.getDefault(), "$ %.2f", inmueble.getPrecio()));

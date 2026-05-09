@@ -19,17 +19,4 @@
         android:layout_weight="1"
         app:defaultNavHost="true"
         app:navGraph="@navigation/mobile_navigation" />
-
-    <com.google.android.material.bottomnavigation.BottomNavigationView
-        android:id="@+id/bottom_nav_view"
-        android:layout_width="match_parent"
-        android:layout_height="60dp"
-        android:layout_gravity="bottom"
-        android:background="@color/bordo_oscuro"
-        app:itemIconTint="@color/white"
-        app:itemTextColor="@color/white"
-        app:itemRippleColor="#4DFFFFFF"
-        app:labelVisibilityMode="labeled"
-        app:itemActiveIndicatorStyle="@null"
-        app:menu="@menu/bottom_navigation" />
 </LinearLayout>

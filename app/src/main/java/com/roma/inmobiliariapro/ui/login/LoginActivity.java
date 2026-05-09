@@ -16,15 +16,13 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
 import androidx.lifecycle.ViewModelProvider;
-import com.roma.inmobiliariapro.MainActivity;
+
 import com.roma.inmobiliariapro.R;
 import com.roma.inmobiliariapro.databinding.ActivityLoginBinding;
-import com.roma.inmobiliariapro.utils.SessionManager;
 
 public class LoginActivity extends AppCompatActivity implements SensorEventListener {
     private ActivityLoginBinding binding;
     private LoginViewModel loginViewModel;
-    private SessionManager sessionManager;
 
     // Sensor para agitar
     private SensorManager sensorManager;
@@ -38,13 +36,6 @@ public class LoginActivity extends AppCompatActivity implements SensorEventListe
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         
-        sessionManager = new SessionManager(this);
-        if (sessionManager.isLoggedIn()) {
-            startActivity(new Intent(this, MainActivity.class));
-            finish();
-            return;
-        }
-
         binding = ActivityLoginBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
 
@@ -52,6 +43,13 @@ public class LoginActivity extends AppCompatActivity implements SensorEventListe
 
         setupListeners();
         setupSensors();
+
+        loginViewModel.getIsLoading().observe(this, boo -> {
+            if(!boo) {
+                binding.progressBar.setVisibility(View.GONE);
+                binding.btnLogin.setEnabled(true);
+            }
+        });
     }
 
     private void setupListeners() {
@@ -83,18 +81,20 @@ public class LoginActivity extends AppCompatActivity implements SensorEventListe
         binding.progressBar.setVisibility(View.VISIBLE);
         binding.btnLogin.setEnabled(false);
 
-        loginViewModel.login(usuario, clave).observe(this, token -> {
-            binding.progressBar.setVisibility(View.GONE);
-            binding.btnLogin.setEnabled(true);
-            
-            if (token != null) {
-                Toast.makeText(this, "Bienvenido", Toast.LENGTH_SHORT).show();
-                startActivity(new Intent(this, MainActivity.class));
-                finish();
-            } else {
-                Toast.makeText(this, "Error de autenticación", Toast.LENGTH_SHORT).show();
-            }
-        });
+        loginViewModel.login(usuario, clave);
+
+//        loginViewModel.login(usuario, clave).observe(this, token -> {
+//            binding.progressBar.setVisibility(View.GONE);
+//            binding.btnLogin.setEnabled(true);
+//
+//            if (token != null) {
+//                Toast.makeText(this, "Bienvenido", Toast.LENGTH_SHORT).show();
+//                startActivity(new Intent(this, MainActivity.class));
+//                finish();
+//            } else {
+//                Toast.makeText(this, "Error de autenticación", Toast.LENGTH_SHORT).show();
+//            }
+//        });
     }
 
     @Override

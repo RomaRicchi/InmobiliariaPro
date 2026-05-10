@@ -1,18 +1,18 @@
 package com.roma.inmobiliariapro.ui.inquilinos;
 
 import android.os.Bundle;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.ViewGroup;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
+import androidx.navigation.Navigation;
 
-import android.view.LayoutInflater;
-import android.view.View;
-import android.view.ViewGroup;
-
-import com.roma.inmobiliariapro.R;
 import com.roma.inmobiliariapro.data.model.response.Inmueble;
+import com.roma.inmobiliariapro.data.model.response.Inquilino;
 import com.roma.inmobiliariapro.databinding.FragmentInquilinoDetalleBinding;
 import com.roma.inmobiliariapro.ui.viewsModels.ContratoInquilinoViewModel;
 
@@ -21,7 +21,7 @@ public class InquilinoDetalleFragment extends Fragment {
     private ContratoInquilinoViewModel vm;
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+    public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         binding = FragmentInquilinoDetalleBinding.inflate(inflater, container, false);
         vm = new ViewModelProvider(requireActivity()).get(ContratoInquilinoViewModel.class);
 
@@ -32,7 +32,7 @@ public class InquilinoDetalleFragment extends Fragment {
             }
         }
 
-        return inflater.inflate(R.layout.fragment_inquilino_detalle, container, false);
+        return binding.getRoot();
     }
 
     @Override
@@ -40,9 +40,20 @@ public class InquilinoDetalleFragment extends Fragment {
         super.onViewCreated(view, savedInstanceState);
 
         vm.getContratoMutable().observe(getViewLifecycleOwner(), contrato -> {
-            // EN CONTRATO ESTA EL INQUILINO
-            // SETTEAR INPUTS CON LOS DATOS DEL INQUILINO
-            // EJEMPLO: binding.etNombreInquilino.setText(contrato.getInquilino().getNombre()
+            if (contrato != null && contrato.getInquilino() != null) {
+                Inquilino inquilino = contrato.getInquilino();
+                binding.etNombreInquilino.setText(inquilino.getNombre());
+                binding.etApellidoInquilino.setText(inquilino.getApellido());
+                binding.etDniInquilino.setText(inquilino.getDni());
+                binding.etTelefonoInquilino.setText(inquilino.getTelefono());
+                binding.etEmailInquilino.setText(inquilino.getEmail());
+            }
         });
+    }
+
+    @Override
+    public void onDestroyView() {
+        super.onDestroyView();
+        binding = null;
     }
 }

@@ -9,7 +9,9 @@ import androidx.lifecycle.MutableLiveData;
 
 import com.roma.inmobiliariapro.data.api.ApiService;
 import com.roma.inmobiliariapro.data.api.RetrofitClient;
+import com.roma.inmobiliariapro.data.model.UiMessage;
 import com.roma.inmobiliariapro.data.model.response.Propietario;
+import com.roma.inmobiliariapro.utils.MessageManager;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -70,6 +72,7 @@ public class PropietarioViewModel extends AndroidViewModel {
             public void onResponse(Call<Propietario> call, Response<Propietario> response) {
                 if(response.isSuccessful() && response.body() != null) {
                     propietarioMutable.postValue(response.body());
+                    MessageManager.send(new UiMessage("Perfil", "Perfil editado correctamente.", true));
                 }
             }
 
@@ -87,7 +90,7 @@ public class PropietarioViewModel extends AndroidViewModel {
             @Override
             public void onResponse(Call<Void> call, Response<Void> response) {
                 if(response.isSuccessful()) {
-                    // todo ok
+                    MessageManager.send(new UiMessage("Perfil", "Contraseña editada correctamente.", true));
                 }
             }
 

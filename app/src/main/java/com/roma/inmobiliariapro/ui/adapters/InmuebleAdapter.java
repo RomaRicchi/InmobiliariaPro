@@ -53,10 +53,12 @@ public class InmuebleAdapter extends RecyclerView.Adapter<InmuebleAdapter.ViewHo
             Bundle bundle = new Bundle();
             bundle.putSerializable("inmueble", inmueble);
 
-            if(navigateTo.equals("DETALLES")) {
+            if(navigateTo.equals("DETALLES INMUEBLE")) {
                 Navigation.findNavController(v).navigate(R.id.action_nav_inmuebles_to_inmuebleDetalleFragment, bundle);
-            } else if (navigateTo.equals("CONTRATOS")) {
-                Navigation.findNavController(v).navigate(R.id.action_nav_inmuebles_to_inmuebleDetalleFragment, bundle);
+            } else if (navigateTo.equals("DETALLES CONTRATO")) {
+                Navigation.findNavController(v).navigate(R.id.action_nav_contratos_to_contratoDetalleFragment, bundle);
+            } else if (navigateTo.equals("DETALLES INQUILINO")) {
+                Navigation.findNavController(v).navigate(R.id.action_nav_inquilinos_to_inquilinoDetalleFragment, bundle);
             } else {
                 Navigation.findNavController(v).navigate(R.id.action_nav_inmuebles_to_inmuebleDetalleFragment, bundle);
             }

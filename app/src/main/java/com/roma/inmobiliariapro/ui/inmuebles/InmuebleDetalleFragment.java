@@ -25,10 +25,9 @@ public class InmuebleDetalleFragment extends Fragment {
     private FragmentInmuebleDetalleBinding binding;
 
     @Override
-    public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container,
-                             @Nullable Bundle savedInstanceState) {
-        vm = new ViewModelProvider(this).get(InmuebleViewModel.class);
+    public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         binding = FragmentInmuebleDetalleBinding.inflate(inflater, container, false);
+        vm = new ViewModelProvider(this).get(InmuebleViewModel.class);
         return binding.getRoot();
     }
 
@@ -74,9 +73,8 @@ public class InmuebleDetalleFragment extends Fragment {
     }
 
     private void setupListeners() {
-        // El botón "Volver a la lista" del diseño
         binding.btnVolver.setOnClickListener(v -> {
-            Navigation.findNavController(v).popBackStack();
+            vm.toggleEstadoInmueble();
         });
     }
 

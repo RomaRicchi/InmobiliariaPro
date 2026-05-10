@@ -19,6 +19,9 @@
         <action
             android:id="@+id/action_nav_inmuebles_to_inmuebleDetalleFragment"
             app:destination="@+id/inmuebleDetalleFragment" />
+        <action
+            android:id="@+id/action_nav_inmuebles_to_inmuebleCreateFragment"
+            app:destination="@id/inmuebleCreateFragment" />
     </fragment>
 
     <fragment
@@ -35,12 +38,6 @@
     </fragment>
 
     <fragment
-        android:id="@+id/nav_inquilinos"
-        android:name="com.roma.inmobiliariapro.ui.inquilinos.ReflowFragment"
-        android:label="@string/menu_inquilinos"
-        tools:layout="@layout/fragment_reflow" />
-
-    <fragment
         android:id="@+id/nav_perfil"
         android:name="com.roma.inmobiliariapro.ui.perfil.PerfilFragment"
         android:label="@string/menu_perfil"
@@ -49,6 +46,58 @@
         android:id="@+id/nav_contratos"
         android:name="com.roma.inmobiliariapro.ui.contratos.ContratoFragment"
         android:label="@string/menu_contratos"
-        tools:layout="@layout/fragment_contrato" />
+        tools:layout="@layout/fragment_contrato" >
+        <action
+            android:id="@+id/action_nav_contratos_to_contratoDetalleFragment"
+            app:destination="@id/contratoDetalleFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/inmuebleCreateFragment"
+        android:name="com.roma.inmobiliariapro.ui.inmuebles.InmuebleCreateFragment"
+        android:label="Crear Inmueble"
+        tools:layout="@layout/fragment_inmueble_create">
+        <action
+            android:id="@+id/action_inmuebleCreateFragment_to_nav_inmuebles"
+            app:destination="@id/nav_inmuebles" />
+    </fragment>
+    <fragment
+        android:id="@+id/contratoDetalleFragment"
+        android:name="com.roma.inmobiliariapro.ui.contratos.ContratoDetalleFragment"
+        android:label="Detalle Contrato"
+        tools:layout="@layout/fragment_contrato_detalle" >
+        <action
+            android:id="@+id/action_contratoDetalleFragment_to_nav_contratos"
+            app:destination="@id/nav_contratos" />
+        <action
+            android:id="@+id/action_contratoDetalleFragment_to_pagoFragment"
+            app:destination="@id/pagoFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/nav_inquilinos"
+        android:name="com.roma.inmobiliariapro.ui.inquilinos.InquilinoFragment"
+        android:label="@string/menu_inquilinos"
+        tools:layout="@layout/fragment_inquilino" >
+        <action
+            android:id="@+id/action_nav_inquilinos_to_inquilinoDetalleFragment"
+            app:destination="@id/inquilinoDetalleFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/inquilinoDetalleFragment"
+        android:name="com.roma.inmobiliariapro.ui.inquilinos.InquilinoDetalleFragment"
+        android:label="Detalle Inquilino"
+        tools:layout="@layout/fragment_inquilino_detalle" >
+        <action
+            android:id="@+id/action_inquilinoDetalleFragment_to_nav_inquilinos"
+            app:destination="@id/nav_inquilinos" />
+    </fragment>
+    <fragment
+        android:id="@+id/pagoFragment"
+        android:name="com.roma.inmobiliariapro.ui.contratos.PagoFragment"
+        android:label="Pagos"
+        tools:layout="@layout/fragment_pago">
+        <action
+            android:id="@+id/action_pagoFragment_to_contratoDetalleFragment"
+            app:destination="@id/contratoDetalleFragment" />
+    </fragment>
 
 </navigation>

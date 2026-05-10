@@ -54,20 +54,21 @@
                     style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:hint="Ubicación del Inmueble"
                     android:layout_marginBottom="14dp"
+                    android:hint="Ubicación del Inmueble"
                     app:boxStrokeColor="@color/bordo_oscuro"
                     app:hintTextColor="@color/bordo_oscuro"
                     app:startIconDrawable="@android:drawable/ic_menu_directions"
                     app:startIconTint="@color/bordo_oscuro">
+
                     <com.google.android.material.textfield.TextInputEditText
                         android:id="@+id/etContratoDireccion"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:enabled="false"
-                        android:text="Belgrano 123"
+                        android:gravity="center"
                         android:textColor="@color/bordo_oscuro"
-                        android:textStyle="bold"/>
+                        android:textStyle="bold" />
                 </com.google.android.material.textfield.TextInputLayout>
 
                 <!-- Inquilino -->
@@ -81,13 +82,14 @@
                     app:hintTextColor="@color/bordo_oscuro"
                     app:startIconDrawable="@android:drawable/ic_menu_myplaces"
                     app:startIconTint="@color/bordo_oscuro">
+
                     <com.google.android.material.textfield.TextInputEditText
                         android:id="@+id/etContratoInquilino"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:enabled="false"
-                        android:text="Lautaro"
-                        android:textColor="@color/bordo_oscuro"/>
+                        android:gravity="center"
+                        android:textColor="@color/bordo_oscuro" />
                 </com.google.android.material.textfield.TextInputLayout>
 
                 <!-- Monto -->
@@ -95,20 +97,21 @@
                     style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:hint="Canon Locativo Mensual"
                     android:layout_marginBottom="14dp"
+                    android:hint="Monto de alquiler"
                     app:boxStrokeColor="@color/bordo_oscuro"
                     app:hintTextColor="@color/bordo_oscuro"
                     app:prefixText="$ "
                     app:prefixTextColor="#B71C1C">
+
                     <com.google.android.material.textfield.TextInputEditText
                         android:id="@+id/etContratoMonto"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:enabled="false"
-                        android:text="324423.00"
+                        android:text="0"
                         android:textColor="#B71C1C"
-                        android:textStyle="bold"/>
+                        android:textStyle="bold" />
                 </com.google.android.material.textfield.TextInputLayout>
 
                 <View
@@ -130,18 +133,17 @@
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
-                        android:hint="Finalización"
-                        android:layout_marginEnd="8dp"
+                        android:hint="Inicio"
                         app:boxStrokeColor="@color/bordo_oscuro"
                         app:hintTextColor="@color/bordo_oscuro">
+
                         <com.google.android.material.textfield.TextInputEditText
-                            android:id="@+id/etContratoFechaFin"
+                            android:id="@+id/etContratoFechaInicio"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:enabled="false"
-                            android:text="2020-07-03"
-                            android:textSize="13sp"
-                            android:textColor="@color/bordo_oscuro"/>
+                            android:textColor="@color/bordo_oscuro"
+                            android:textSize="13sp" />
                     </com.google.android.material.textfield.TextInputLayout>
 
                     <com.google.android.material.textfield.TextInputLayout
@@ -149,18 +151,20 @@
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
-                        android:hint="Inicio"
+                        android:hint="Finalización"
+                        android:layout_marginEnd="8dp"
                         app:boxStrokeColor="@color/bordo_oscuro"
                         app:hintTextColor="@color/bordo_oscuro">
+
                         <com.google.android.material.textfield.TextInputEditText
-                            android:id="@+id/etContratoFechaInicio"
+                            android:id="@+id/etContratoFechaFin"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:enabled="false"
-                            android:text="2016-03-02"
-                            android:textSize="13sp"
-                            android:textColor="@color/bordo_oscuro"/>
+                            android:textColor="@color/bordo_oscuro"
+                            android:textSize="13sp" />
                     </com.google.android.material.textfield.TextInputLayout>
+
                 </LinearLayout>
 
             </LinearLayout>
@@ -169,20 +173,21 @@
         <!-- Botón Pagos -->
         <Button
             android:id="@+id/btnPagos"
+            style="@style/Widget.MaterialComponents.Button"
             android:layout_width="match_parent"
             android:layout_height="68dp"
             android:layout_marginTop="36dp"
+            android:elevation="6dp"
+            android:enabled="false"
+            android:letterSpacing="0.1"
             android:text="CONSULTAR PAGOS"
             android:textSize="16sp"
             android:textStyle="bold"
-            android:letterSpacing="0.1"
-            app:icon="@android:drawable/ic_menu_view"
-            app:iconPadding="12dp"
-            app:iconGravity="textStart"
             app:backgroundTint="@color/bordo_oscuro"
             app:cornerRadius="20dp"
-            android:elevation="6dp"
-            style="@style/Widget.MaterialComponents.Button"/>
+            app:icon="@android:drawable/ic_menu_view"
+            app:iconGravity="textStart"
+            app:iconPadding="12dp" />
 
     </LinearLayout>
 </ScrollView>

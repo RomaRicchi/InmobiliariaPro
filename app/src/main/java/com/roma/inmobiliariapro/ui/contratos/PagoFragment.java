@@ -12,24 +12,24 @@ import androidx.recyclerview.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+
 import com.roma.inmobiliariapro.R;
-import com.roma.inmobiliariapro.databinding.FragmentContratoBinding;
-import com.roma.inmobiliariapro.databinding.FragmentInmuebleDetalleBinding;
+import com.roma.inmobiliariapro.databinding.FragmentPagoBinding;
 import com.roma.inmobiliariapro.ui.adapters.InmuebleAdapter;
-import com.roma.inmobiliariapro.ui.viewsModels.InmuebleViewModel;
+import com.roma.inmobiliariapro.ui.adapters.PagoAdapter;
+import com.roma.inmobiliariapro.ui.viewsModels.ContratoInquilinoViewModel;
 
 import java.util.ArrayList;
 
-
-public class ContratoFragment extends Fragment {
-    private FragmentContratoBinding binding;
-    private InmuebleViewModel vm;
-    private InmuebleAdapter adapter;
+public class PagoFragment extends Fragment {
+    private FragmentPagoBinding binding;
+    private ContratoInquilinoViewModel vm;
+    private PagoAdapter adapter;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        vm = new ViewModelProvider(this).get(InmuebleViewModel.class);
-        binding = FragmentContratoBinding.inflate(inflater, container, false);
+        binding = FragmentPagoBinding.inflate(inflater, container, false);
+        vm = new ViewModelProvider(requireActivity()).get(ContratoInquilinoViewModel.class);
 
         return binding.getRoot();
     }
@@ -38,19 +38,19 @@ public class ContratoFragment extends Fragment {
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
-        RecyclerView recyclerView = binding.recyclerContratos;
+        RecyclerView recyclerView = binding.recyclerPagos;
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
 
-        adapter = new InmuebleAdapter(new ArrayList<>(), getContext(),"DETALLES CONTRATO");
+        adapter = new PagoAdapter(new ArrayList<>(), getContext());
         recyclerView.setAdapter(adapter);
 
-        vm.getInmueblesAlquiladosMutable().observe(getViewLifecycleOwner(), inmuebles -> {
-            if(inmuebles != null) {
-                adapter = new InmuebleAdapter(inmuebles, getContext(), "DETALLES CONTRATO");
+        vm.getPagosMutable().observe(getViewLifecycleOwner(), pagos -> {
+            if(pagos != null) {
+                adapter = new PagoAdapter(pagos, getContext());
                 recyclerView.setAdapter(adapter);
             }
         });
 
-        vm.getInmublesAlquilados();
+        vm.forceRefreshPagos();
     }
 }

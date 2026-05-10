@@ -1,10 +1,14 @@
 package com.roma.inmobiliariapro;
 
+import android.app.AlertDialog;
 import android.content.Intent;
+import android.content.res.ColorStateList;
 import android.os.Bundle;
+import android.view.Gravity;
 import android.view.MenuItem;
 import android.view.Menu;
 import android.view.View;
+import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -13,6 +17,7 @@ import com.google.android.material.navigation.NavigationView;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatDelegate;
+import androidx.core.content.ContextCompat;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.navigation.NavController;
 import androidx.navigation.Navigation;
@@ -21,9 +26,11 @@ import androidx.navigation.ui.AppBarConfiguration;
 import androidx.navigation.ui.NavigationUI;
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.google.android.material.snackbar.Snackbar;
 import com.roma.inmobiliariapro.databinding.ActivityMainBinding;
 import com.roma.inmobiliariapro.ui.login.LoginActivity;
 import com.roma.inmobiliariapro.ui.viewsModels.PropietarioViewModel;
+import com.roma.inmobiliariapro.utils.MessageManager;
 import com.roma.inmobiliariapro.utils.SharedPreferesManager;
 
 public class MainActivity extends AppCompatActivity {
@@ -31,7 +38,7 @@ public class MainActivity extends AppCompatActivity {
     private AppBarConfiguration mAppBarConfiguration;
     private SharedPreferesManager sharedPreferesManager;
     private ActivityMainBinding binding;
-    private PropietarioViewModel vm;
+    private PropietarioViewModel propietarioVM;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -39,7 +46,7 @@ public class MainActivity extends AppCompatActivity {
 
         binding = ActivityMainBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
-        vm = new ViewModelProvider(this).get(PropietarioViewModel.class);
+        propietarioVM = new ViewModelProvider(this).get(PropietarioViewModel.class);
 
         sharedPreferesManager = new SharedPreferesManager(this);
 
@@ -49,7 +56,7 @@ public class MainActivity extends AppCompatActivity {
             AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO);
         }
 
-        vm.getPropietario();
+        propietarioVM.getPropietario();
 
 
         setSupportActionBar(binding.appBarMain.toolbar);
@@ -86,7 +93,7 @@ public class MainActivity extends AppCompatActivity {
         TextView email = headerView.findViewById(R.id.textEmail);
         ImageView profileImage = headerView.findViewById(R.id.imageProfile);
 
-        vm.getPropietarioMutable().observe(this, propietario -> {
+        propietarioVM.getPropietarioMutable().observe(this, propietario -> {
             if(propietario != null) {
                 name.setText(propietario.getFullName());
                 email.setText(propietario.getEmail());
@@ -95,6 +102,35 @@ public class MainActivity extends AppCompatActivity {
                         .load(R.mipmap.ic_launcher_round) // Usamos el launcher como placeholder/default
                         .circleCrop()
                         .into(profileImage);
+            }
+        });
+
+        MessageManager.getUiMessageMutable().observe(this, uiMessage -> {
+            if(uiMessage != null) {
+                Snackbar snackbar = Snackbar.make(
+                        binding.getRoot(),
+                        uiMessage.message,
+                        Snackbar.LENGTH_SHORT
+                );
+
+                View view = snackbar.getView();
+                FrameLayout.LayoutParams params = (FrameLayout.LayoutParams) view.getLayoutParams();
+
+                params.gravity = Gravity.TOP;
+                params.topMargin = 50;
+
+                view.setLayoutParams(params);
+
+                view.setBackgroundTintList(
+                        ColorStateList.valueOf(
+                                ContextCompat.getColor(
+                                        this,
+                                        uiMessage.success ? R.color.green : R.color.red
+                                )
+                        )
+                );
+
+                snackbar.show();
             }
         });
     }

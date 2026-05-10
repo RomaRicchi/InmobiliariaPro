@@ -179,14 +179,14 @@
 
         <Button
             android:id="@+id/btnVolver"
+            style="@style/Widget.MaterialComponents.Button"
             android:layout_width="match_parent"
             android:layout_height="60dp"
             android:layout_marginTop="32dp"
-            android:text="Volver a la lista"
+            android:text="Desactivar / Activar estado"
             android:textSize="16sp"
             app:backgroundTint="@color/bordo_oscuro"
-            app:cornerRadius="12dp"
-            style="@style/Widget.MaterialComponents.Button"/>
+            app:cornerRadius="12dp" />
 
     </LinearLayout>
 </ScrollView>

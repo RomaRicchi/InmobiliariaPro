@@ -54,6 +54,8 @@ public class InmuebleCreateFragment extends Fragment {
 
         binding.btnGuardarInmueble.setOnClickListener(v -> {
 
+            binding.btnGuardarInmueble.setEnabled(false);
+
             String direccion = binding.etDireccionCreate.getText().toString();
             String uso = binding.etUsoCreate.getText().toString();
             String tipo = binding.etTipoCreate.getText().toString();

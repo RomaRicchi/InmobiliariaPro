@@ -1,6 +1,7 @@
 package com.roma.inmobiliariapro.ui.viewsModels;
 
 import android.app.Application;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.lifecycle.AndroidViewModel;
@@ -86,6 +87,11 @@ public class PropietarioViewModel extends AndroidViewModel {
     }
 
     public void cambiarContrasena(String currentPassword, String newPassword) {
+        if (currentPassword.isEmpty() || newPassword.isEmpty()) {
+            MessageManager.send(new UiMessage("Perfil", "Los campos son obligatorios.", true));
+            return;
+        }
+
         Call<Void> call = apiService.cambiarContrasena(currentPassword, newPassword);
 
         call.enqueue(new Callback<Void>() {

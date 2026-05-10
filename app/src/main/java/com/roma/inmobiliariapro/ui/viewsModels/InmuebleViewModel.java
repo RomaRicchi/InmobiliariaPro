@@ -1,6 +1,7 @@
 package com.roma.inmobiliariapro.ui.viewsModels;
 
 import android.app.Application;
+import android.util.Log;
 
 import androidx.annotation.NonNull;
 import androidx.lifecycle.AndroidViewModel;
@@ -137,7 +138,7 @@ public class InmuebleViewModel extends AndroidViewModel {
 
             @Override
             public void onFailure(Call<Inmueble> call, Throwable throwable) {
-                // manejar el error easdasdasd
+                Log.d("ErrorDe", throwable.getMessage());
             }
         });
     }

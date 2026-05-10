@@ -1,6 +1,5 @@
 package com.roma.inmobiliariapro.data.api;
 
-import com.roma.inmobiliariapro.data.model.request.UpdatePasswordRequest;
 import com.roma.inmobiliariapro.data.model.response.Contrato;
 import com.roma.inmobiliariapro.data.model.response.Inmueble;
 import com.roma.inmobiliariapro.data.model.response.Pago;

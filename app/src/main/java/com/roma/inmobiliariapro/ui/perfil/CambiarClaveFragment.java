@@ -26,11 +26,6 @@ public class CambiarClaveFragment extends DialogFragment {
             String passActual = binding.etCurrentPassword.getText().toString();
             String passNueva = binding.etNewPassword.getText().toString();
 
-            if (passActual.isEmpty() || passNueva.isEmpty()) {
-                Toast.makeText(getContext(), "Complete los campos obligatorios", Toast.LENGTH_SHORT).show();
-                return;
-            }
-
             vm.cambiarContrasena(passActual, passNueva);
         });
 

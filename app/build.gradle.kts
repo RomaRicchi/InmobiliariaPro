@@ -1,3 +1,5 @@
+import java.util.Properties
+
 plugins {
     alias(libs.plugins.android.application)
 }
@@ -14,6 +16,19 @@ android {
         versionName = "1.0"
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
+
+        // Leer local.properties
+        val localProperties = Properties()
+        val localPropertiesFile = rootProject.file("local.properties")
+        if (localPropertiesFile.exists()) {
+            localProperties.load(localPropertiesFile.inputStream())
+        }
+        val mapsApiKey = localProperties.getProperty("MAPS_API_KEY") ?: ""
+        
+        // Manifest Placeholder para la API Key de Maps
+        manifestPlaceholders["MAPS_API_KEY"] = mapsApiKey
+
+        buildConfigField("String", "MAPS_API_KEY", "\"${mapsApiKey}\"")
     }
 
     buildTypes {
@@ -31,6 +46,7 @@ android {
     }
     buildFeatures {
         viewBinding = true
+        buildConfig = true
     }
 }
 

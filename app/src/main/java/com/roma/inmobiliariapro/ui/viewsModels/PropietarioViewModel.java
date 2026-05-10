@@ -12,6 +12,7 @@ import com.roma.inmobiliariapro.data.api.RetrofitClient;
 import com.roma.inmobiliariapro.data.model.UiMessage;
 import com.roma.inmobiliariapro.data.model.response.Propietario;
 import com.roma.inmobiliariapro.utils.MessageManager;
+import com.roma.inmobiliariapro.utils.SharedPreferesManager;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -21,10 +22,11 @@ public class PropietarioViewModel extends AndroidViewModel {
     private final ApiService apiService;
     private final MutableLiveData<Propietario> propietarioMutable = new MutableLiveData<>();
     private final MutableLiveData<String> msgErrorMutable = new MutableLiveData<>();
+    
     public PropietarioViewModel(@NonNull Application application) {
         super(application);
-
-        apiService = RetrofitClient.getService(application);
+        SharedPreferesManager sharedPreferesManager = new SharedPreferesManager(application);
+        apiService = RetrofitClient.getService(sharedPreferesManager);
     }
 
     public LiveData<Propietario> getPropietarioMutable() {

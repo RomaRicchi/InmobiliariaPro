@@ -9,8 +9,10 @@ public class SharedPreferesManager {
     private static final String KEY_DARK_MODE = "dark_mode";
     private final SharedPreferences sharedPreferences;
     private final SharedPreferences.Editor editor;
+    private final Context context;
 
     public SharedPreferesManager(Context context) {
+        this.context = context.getApplicationContext();
         sharedPreferences = context.getSharedPreferences(PREF_NAME, Context.MODE_PRIVATE);
         editor = sharedPreferences.edit();
     }
@@ -36,5 +38,13 @@ public class SharedPreferesManager {
     public void clearSession() {
         editor.clear();
         editor.apply();
+    }
+
+    public boolean isLoggedIn() {
+        return getToken() != null;
+    }
+
+    public Context getContext() {
+        return context;
     }
 }

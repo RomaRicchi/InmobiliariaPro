@@ -1,7 +1,6 @@
 package com.roma.inmobiliariapro.data.api;
 
-import android.content.Context;
-
+import android.content.Intent;
 import com.roma.inmobiliariapro.utils.SharedPreferesManager;
 import java.io.IOException;
 import okhttp3.Interceptor;
@@ -14,14 +13,11 @@ import retrofit2.converter.gson.GsonConverterFactory;
 import retrofit2.converter.scalars.ScalarsConverterFactory;
 
 public class RetrofitClient {
+    public static final String ACTION_UNAUTHORIZED = "com.roma.inmobiliariapro.UNAUTHORIZED";
     private static final String BASE_URL = "https://capacitacion.alwaysdata.net/";
     private static Retrofit retrofit = null;
 
-    private static SharedPreferesManager sharedPreferesManager;
-
-    public static ApiService getService(Context context) {
-        sharedPreferesManager = new SharedPreferesManager(context.getApplicationContext());
-        
+    public static ApiService getService(SharedPreferesManager sharedPreferesManager) {
         if (retrofit == null) {
             HttpLoggingInterceptor logging = new HttpLoggingInterceptor();
             logging.setLevel(HttpLoggingInterceptor.Level.BODY);
@@ -36,15 +32,23 @@ public class RetrofitClient {
                             
                             String token = sharedPreferesManager.getToken();
                             if (token != null && !token.isEmpty()) {
-                                // Limpiamos el token de posibles comillas si el ScalarConverter las dejó
                                 String cleanToken = token.replace("\"", "");
                                 requestBuilder.header("Authorization", "Bearer " + cleanToken);
                             }
 
                             Request request = requestBuilder.build();
+                            Response response = chain.proceed(request);
 
+                            // Manejo del error 401 (No autorizado/Sesión expirada)
+                            if (response.code() == 401) {
+                                sharedPreferesManager.clearSession();
+                                // Enviamos un broadcast para que BaseActivity redirija al login
+                                Intent intent = new Intent(ACTION_UNAUTHORIZED);
+                                intent.setPackage(sharedPreferesManager.getContext().getPackageName());
+                                sharedPreferesManager.getContext().sendBroadcast(intent);
+                            }
 
-                            return chain.proceed(request);
+                            return response;
                         }
                     })
                     .build();

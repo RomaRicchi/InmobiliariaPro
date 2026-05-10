@@ -10,19 +10,19 @@
             android:title="@string/menu_inicio" />
         <item
             android:id="@+id/nav_perfil"
-            android:icon="@drawable/ic_slideshow_black_24dp"
+            android:icon="@drawable/propietario"
             android:title="@string/menu_perfil" />
         <item
             android:id="@+id/nav_inmuebles"
-            android:icon="@android:drawable/ic_dialog_dialer"
+            android:icon="@drawable/inmueble"
             android:title="@string/menu_inmuebles" />
         <item
             android:id="@+id/nav_contratos"
-            android:icon="@drawable/ic_gallery_black_24dp"
+            android:icon="@drawable/contrato"
             android:title="@string/menu_contratos" />
         <item
             android:id="@+id/nav_inquilinos"
-            android:icon="@drawable/ic_gallery_black_24dp"
+            android:icon="@drawable/inquilino"
             android:title="@string/menu_inquilinos" />
 
 

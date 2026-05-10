@@ -50,17 +50,18 @@ public class PerfilFragment extends Fragment {
     }
 
     private void setupObservers() {
-
         propietarioViewModel.getPropietarioMutable().observe(getViewLifecycleOwner(), propietario -> {
-            binding.etNombre.setText(propietario.getNombre());
-            binding.etApellido.setText(propietario.getApellido());
-            binding.etDni.setText(propietario.getDni());
-            binding.etTelefono.setText(propietario.getTelefono());
-            binding.etEmail.setText(propietario.getEmail());
+            if (propietario != null) {
+                binding.etNombre.setText(propietario.getNombre());
+                binding.etApellido.setText(propietario.getApellido());
+                binding.etDni.setText(propietario.getDni());
+                binding.etTelefono.setText(propietario.getTelefono());
+                binding.etEmail.setText(propietario.getEmail());
 
-            if(binding.btnEditarGuardar.getText().toString().equalsIgnoreCase("CARGANDO")) {
-                binding.btnEditarGuardar.setText("EDITAR");
-                binding.btnEditarGuardar.setEnabled(true);
+                if(binding.btnEditarGuardar.getText().toString().equalsIgnoreCase("CARGANDO")) {
+                    binding.btnEditarGuardar.setText("EDITAR");
+                    binding.btnEditarGuardar.setEnabled(true);
+                }
             }
         });
 
@@ -71,15 +72,12 @@ public class PerfilFragment extends Fragment {
 
     private void setupListeners() {
         binding.btnEditarGuardar.setOnClickListener(v -> {
-
             String textBtn = binding.btnEditarGuardar.getText().toString();
 
             if(textBtn.equalsIgnoreCase("EDITAR")) {
                 setEnabledInput(true);
                 binding.btnEditarGuardar.setText("GUARDAR");
-            }
-
-            if(textBtn.equalsIgnoreCase("GUARDAR")) {
+            } else if(textBtn.equalsIgnoreCase("GUARDAR")) {
                 setEnabledInput(false);
                 binding.btnEditarGuardar.setText("CARGANDO");
                 binding.btnEditarGuardar.setEnabled(false);
@@ -89,7 +87,6 @@ public class PerfilFragment extends Fragment {
 
         binding.btnEditarPassword.setOnClickListener(v -> {
             CambiarClaveFragment dialog = new CambiarClaveFragment();
-
             dialog.show(getParentFragmentManager(), "cambiar_clave");
         });
     }
@@ -101,12 +98,15 @@ public class PerfilFragment extends Fragment {
     }
 
     private void guardarCambios() {
-        String nombre = binding.etNombre.getText().toString();
-        String apellido = binding.etApellido.getText().toString();
-        String telefono = binding.etTelefono.getText().toString();
+        String nombre = binding.etNombre.getText().toString().trim();
+        String apellido = binding.etApellido.getText().toString().trim();
+        String telefono = binding.etTelefono.getText().toString().trim();
 
         if (nombre.isEmpty() || apellido.isEmpty() || telefono.isEmpty()) {
             Toast.makeText(getContext(), "Complete los campos obligatorios", Toast.LENGTH_SHORT).show();
+            setEnabledInput(true);
+            binding.btnEditarGuardar.setText("GUARDAR");
+            binding.btnEditarGuardar.setEnabled(true);
             return;
         }
 

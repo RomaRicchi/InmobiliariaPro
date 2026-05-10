@@ -12,6 +12,7 @@ import com.roma.inmobiliariapro.data.api.RetrofitClient;
 import com.roma.inmobiliariapro.data.model.response.Contrato;
 import com.roma.inmobiliariapro.data.model.response.Inmueble;
 import com.roma.inmobiliariapro.data.model.response.Pago;
+import com.roma.inmobiliariapro.utils.SharedPreferesManager;
 
 import java.util.List;
 
@@ -25,7 +26,8 @@ public class ContratoInquilinoViewModel extends AndroidViewModel {
     private MutableLiveData<List<Pago>> pagosMutable = new MutableLiveData<>();
     public ContratoInquilinoViewModel(@NonNull Application application) {
         super(application);
-        apiService = RetrofitClient.getService(application);
+        SharedPreferesManager sharedPreferesManager = new SharedPreferesManager(application);
+        apiService = RetrofitClient.getService(sharedPreferesManager);
     }
 
     public LiveData<Contrato> getContratoMutable() {

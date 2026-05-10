@@ -28,7 +28,7 @@ public class LoginViewModel extends AndroidViewModel {
     public LoginViewModel(@NonNull Application application) {
         super(application);
        sharedPreferesManager = new SharedPreferesManager(application);
-       apiService = RetrofitClient.getService(application);
+       apiService = RetrofitClient.getService(sharedPreferesManager);
     }
 
     public void login(String usuario, String clave) {

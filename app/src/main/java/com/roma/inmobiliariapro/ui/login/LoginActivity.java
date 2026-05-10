@@ -13,14 +13,15 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.Toast;
 import androidx.annotation.NonNull;
-import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
 import androidx.lifecycle.ViewModelProvider;
 
+import com.roma.inmobiliariapro.MainActivity;
 import com.roma.inmobiliariapro.R;
 import com.roma.inmobiliariapro.databinding.ActivityLoginBinding;
+import com.roma.inmobiliariapro.ui.BaseActivity;
 
-public class LoginActivity extends AppCompatActivity implements SensorEventListener {
+public class LoginActivity extends BaseActivity implements SensorEventListener {
     private ActivityLoginBinding binding;
     private LoginViewModel loginViewModel;
 
@@ -36,6 +37,12 @@ public class LoginActivity extends AppCompatActivity implements SensorEventListe
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         
+        if (sharedPreferesManager.isLoggedIn()) {
+            startActivity(new Intent(this, MainActivity.class));
+            finish();
+            return;
+        }
+
         binding = ActivityLoginBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
 
@@ -82,19 +89,6 @@ public class LoginActivity extends AppCompatActivity implements SensorEventListe
         binding.btnLogin.setEnabled(false);
 
         loginViewModel.login(usuario, clave);
-
-//        loginViewModel.login(usuario, clave).observe(this, token -> {
-//            binding.progressBar.setVisibility(View.GONE);
-//            binding.btnLogin.setEnabled(true);
-//
-//            if (token != null) {
-//                Toast.makeText(this, "Bienvenido", Toast.LENGTH_SHORT).show();
-//                startActivity(new Intent(this, MainActivity.class));
-//                finish();
-//            } else {
-//                Toast.makeText(this, "Error de autenticación", Toast.LENGTH_SHORT).show();
-//            }
-//        });
     }
 
     @Override

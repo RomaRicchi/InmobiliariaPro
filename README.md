@@ -9,8 +9,13 @@ Aplicación Android desarrollada en **Java**, basada en arquitectura **MVVM**, q
 ## Integrantes del equipo
 
 * Romanela Ricchiardi
+<<<<<<< Updated upstream
 * Hernán Constante
 * Kevin Paredes
+=======
+* Kevin Paredes
+* Hernan Constante
+>>>>>>> Stashed changes
 
 ---
 

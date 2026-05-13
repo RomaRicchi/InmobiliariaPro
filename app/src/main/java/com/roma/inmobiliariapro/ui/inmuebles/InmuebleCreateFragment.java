@@ -9,13 +9,12 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
+import androidx.navigation.Navigation;
 
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import com.roma.inmobiliariapro.data.model.response.Inmueble;
 import com.roma.inmobiliariapro.databinding.FragmentInmuebleCreateBinding;
 import com.roma.inmobiliariapro.ui.viewsModels.InmuebleViewModel;
 import com.roma.inmobiliariapro.utils.FileUtil;
@@ -27,11 +26,11 @@ public class InmuebleCreateFragment extends Fragment {
     private InmuebleViewModel vm;
     private ActivityResultLauncher<String> pickImageLauncher;
     private Uri imageUri;
+
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+    public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         binding = FragmentInmuebleCreateBinding.inflate(inflater, container, false);
         vm = new ViewModelProvider(requireActivity()).get(InmuebleViewModel.class);
-
         return binding.getRoot();
     }
 
@@ -39,19 +38,24 @@ public class InmuebleCreateFragment extends Fragment {
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
+        setupListeners();
+        setupObservers();
+    }
+
+    private void setupListeners() {
         pickImageLauncher = registerForActivityResult(
                 new ActivityResultContracts.GetContent(),
                 uri -> {
                     if(uri != null) {
                         imageUri = uri;
                         binding.ivInmuebleNueva.setImageURI(uri);
+                        binding.ivInmuebleNueva.setAlpha(1.0f);
+                        binding.ivInmuebleNueva.setPadding(0, 0, 0, 0);
                     }
                 }
         );
 
-        binding.ivInmuebleNueva.setOnClickListener(v -> {
-            pickImageLauncher.launch("image/*");
-        });
+        binding.cardImagenInmueble.setOnClickListener(v -> pickImageLauncher.launch("image/*"));
 
         binding.btnGuardarInmueble.setOnClickListener(v -> {
             if(imageUri == null) {
@@ -78,22 +82,43 @@ public class InmuebleCreateFragment extends Fragment {
                     binding.swDisponibleCreate.isChecked()
             );
         });
+    }
 
+    private void setupObservers() {
         vm.getCreateInmuebleState().observe(getViewLifecycleOwner(), status -> {
             switch (status) {
-                case WARNING:
-                    //cambiar de color los inputs
-                    break;
                 case LOADING:
-                    //agregar circulo de cargando
-                    binding.btnGuardarInmueble.setEnabled(false);
+                    setLoadingState(true);
                     break;
                 case SUCCESS:
+                    setLoadingState(false);
+                    vm.resetCreateState(); // Resetear para evitar re-navegación al volver
+                    Navigation.findNavController(requireView()).navigateUp();
+                    break;
                 case ERROR:
-                    //quitar circulo de cargando
-                    binding.btnGuardarInmueble.setEnabled(true);
+                case WARNING:
+                case IDLE:
+                    setLoadingState(false);
                     break;
             }
         });
+    }
+
+    private void setLoadingState(boolean isLoading) {
+        if (isLoading) {
+            binding.btnGuardarInmueble.setEnabled(false);
+            binding.btnGuardarInmueble.setText("Cargando...");
+            binding.loadingIndicator.setVisibility(View.VISIBLE);
+        } else {
+            binding.btnGuardarInmueble.setEnabled(true);
+            binding.btnGuardarInmueble.setText("Guardar Inmueble");
+            binding.loadingIndicator.setVisibility(View.GONE);
+        }
+    }
+
+    @Override
+    public void onDestroyView() {
+        super.onDestroyView();
+        binding = null;
     }
 }

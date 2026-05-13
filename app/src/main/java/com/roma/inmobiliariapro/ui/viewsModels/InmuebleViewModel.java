@@ -36,6 +36,7 @@ public class InmuebleViewModel extends AndroidViewModel {
     private final MutableLiveData<Inmueble> inmuebleMutable = new MutableLiveData<>();
     private final MutableLiveData<Status> toggleEstadoState = new MutableLiveData<>(Status.IDLE);
     private final MutableLiveData<Status> createInmuebleState = new MutableLiveData<>(Status.IDLE);
+
     public InmuebleViewModel(@NonNull Application application) {
         super(application);
         SharedPreferesManager sharedPreferesManager = new SharedPreferesManager(application);
@@ -92,6 +93,8 @@ public class InmuebleViewModel extends AndroidViewModel {
         toggleEstadoState.setValue(Status.LOADING);
 
         Inmueble inmueble = inmuebleMutable.getValue();
+        if (inmueble == null) return;
+        
         inmueble.setEstado(!inmueble.isEstado());
 
         Call<Inmueble> call = apiService.actualizarInmueble(inmueble);
@@ -128,67 +131,34 @@ public class InmuebleViewModel extends AndroidViewModel {
             boolean disponible
     ) {
         if(imageFile == null) {
-            createInmuebleState.setValue(Status.WARNING);
             MessageManager.send(new UiMessage("Inmueble", "La foto es requerida.", Status.WARNING));
             return;
         }
 
         if(direccion == null || direccion.isEmpty()) {
-            createInmuebleState.setValue(Status.WARNING);
             MessageManager.send(new UiMessage("Inmueble", "El campo Dirección es obligatorio.", Status.WARNING));
             return;
         }
 
-        if(uso == null || uso.isEmpty()) {
-            createInmuebleState.setValue(Status.WARNING);
-            MessageManager.send(new UiMessage("Inmueble", "El campo Uso es obligatorio.", Status.WARNING));
+        if(uso == null || uso.isEmpty() || tipo == null || tipo.isEmpty() || ambientes == null || ambientes.isEmpty() || superficie == null || superficie.isEmpty() || precio == null || precio.isEmpty()) {
+            MessageManager.send(new UiMessage("Inmueble", "Complete todos los campos obligatorios.", Status.WARNING));
             return;
         }
 
-        if(tipo == null || tipo.isEmpty()) {
-            createInmuebleState.setValue(Status.WARNING);
-            MessageManager.send(new UiMessage("Inmueble", "El campo Tipo es obligatorio.", Status.WARNING));
+        int numAmbientes;
+        int numSuperficie;
+        double numPrecio;
+        try {
+            numAmbientes = Integer.parseInt(ambientes);
+            numSuperficie = Integer.parseInt(superficie);
+            numPrecio = Double.parseDouble(precio);
+        } catch (NumberFormatException e) {
+            MessageManager.send(new UiMessage("Inmueble", "Formato de número inválido.", Status.WARNING));
             return;
         }
 
-        if(ambientes == null || ambientes.isEmpty()) {
-            createInmuebleState.setValue(Status.WARNING);
-            MessageManager.send(new UiMessage("Inmueble", "El campo Ambientes es obligatorio.", Status.WARNING));
-            return;
-        }
-
-        if(superficie == null || superficie.isEmpty()) {
-            createInmuebleState.setValue(Status.WARNING);
-            MessageManager.send(new UiMessage("Inmueble", "El campo Superficie es obligatorio.", Status.WARNING));
-            return;
-        }
-
-        if(precio == null || precio.isEmpty()) {
-            createInmuebleState.setValue(Status.WARNING);
-            MessageManager.send(new UiMessage("Inmueble", "El campo Precio es obligatorio.", Status.WARNING));
-            return;
-        }
-
-        int numAmbientes = Integer.parseInt(ambientes);
-        int numSuperficie = Integer.parseInt(superficie);
-        double numPrecio = Double.parseDouble(precio);
-
-        // validar valores válidos
-        if(numAmbientes <= 0) {
-            createInmuebleState.setValue(Status.WARNING);
-            MessageManager.send(new UiMessage("Inmueble", "Ambientes debe ser mayor a 0.", Status.WARNING));
-            return;
-        }
-
-        if(numSuperficie <= 0) {
-            createInmuebleState.setValue(Status.WARNING);
-            MessageManager.send(new UiMessage("Inmueble", "Superficie debe ser mayor a 0.", Status.WARNING));
-            return;
-        }
-
-        if(numPrecio <= 0) {
-            createInmuebleState.setValue(Status.WARNING);
-            MessageManager.send(new UiMessage("Inmueble", "Precio debe ser mayor a 0.", Status.WARNING));
+        if(numAmbientes <= 0 || numSuperficie <= 0 || numPrecio <= 0) {
+            MessageManager.send(new UiMessage("Inmueble", "Los valores numéricos deben ser mayores a 0.", Status.WARNING));
             return;
         }
 
@@ -208,7 +178,6 @@ public class InmuebleViewModel extends AndroidViewModel {
         inmueble.setPrecio(numPrecio);
         inmueble.setEstado(disponible);
 
-
         Gson gson = new Gson();
         String inmuebleJson = gson.toJson(inmueble);
 
@@ -218,6 +187,8 @@ public class InmuebleViewModel extends AndroidViewModel {
         );
 
         createInmuebleState.setValue(Status.LOADING);
+        MessageManager.send(new UiMessage("Inmueble", "Subiendo inmueble...", Status.LOADING));
+
         Call<Inmueble> call = apiService.cargarInmueble(imagen, inmuebleBody);
         call.enqueue(new Callback<Inmueble>() {
             @Override
@@ -245,6 +216,10 @@ public class InmuebleViewModel extends AndroidViewModel {
 
     public void setInmueble(Inmueble inmueble) { inmuebleMutable.setValue(inmueble); }
 
+    public void resetCreateState() {
+        createInmuebleState.setValue(Status.IDLE);
+    }
+
     public void validarImage(Uri imageUri, Exception e) {
         if(imageUri == null) {
             MessageManager.send(new UiMessage("Inmueble", "La foto es requerida.", Status.WARNING));
@@ -252,7 +227,7 @@ public class InmuebleViewModel extends AndroidViewModel {
         }
 
         if(e != null) {
-            MessageManager.send(new UiMessage("Inmueble", "Ocurrió un error, inténtalo más tarde.", Status.WARNING));
+            MessageManager.send(new UiMessage("Inmueble", "Ocurrió un error con la imagen, inténtalo más tarde.", Status.WARNING));
             Log.e("API - INMUEBLE", e.getMessage(), e);
         }
     }

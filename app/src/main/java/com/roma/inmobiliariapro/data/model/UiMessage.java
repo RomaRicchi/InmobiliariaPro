@@ -3,11 +3,11 @@ package com.roma.inmobiliariapro.data.model;
 public class UiMessage {
     public String title;
     public String message;
-    public boolean success;
+    public Status status;
 
-    public UiMessage(String title, String message, boolean success) {
+    public UiMessage(String title, String message, Status status) {
         this.title = title;
         this.message = message;
-        this.success = success;
+        this.status = status;
     }
 }

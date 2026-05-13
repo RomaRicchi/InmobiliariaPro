@@ -30,7 +30,6 @@ public class InmuebleFragment extends Fragment {
         binding = FragmentInmuebleBinding.inflate(inflater, container, false);
         vm = new ViewModelProvider(requireActivity()).get(InmuebleViewModel.class);
 
-
         RecyclerView recyclerView = binding.recyclerInmuebles;
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
         

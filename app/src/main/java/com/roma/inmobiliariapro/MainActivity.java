@@ -29,6 +29,7 @@ import com.roma.inmobiliariapro.databinding.ActivityMainBinding;
 import com.roma.inmobiliariapro.ui.BaseActivity;
 import com.roma.inmobiliariapro.ui.login.LoginActivity;
 import com.roma.inmobiliariapro.ui.viewsModels.PropietarioViewModel;
+import com.roma.inmobiliariapro.utils.ColorUtil;
 import com.roma.inmobiliariapro.utils.MessageManager;
 import com.roma.inmobiliariapro.utils.SharedPreferesManager;
 
@@ -142,7 +143,7 @@ public class MainActivity extends BaseActivity {
                 params.topMargin = 50;
                 view.setLayoutParams(params);
                 view.setBackgroundTintList(ColorStateList.valueOf(
-                        ContextCompat.getColor(this, uiMessage.success ? R.color.green : R.color.red)));
+                        ContextCompat.getColor(this, ColorUtil.getColorByStatus(uiMessage.status))));
                 snackbar.show();
             }
         });

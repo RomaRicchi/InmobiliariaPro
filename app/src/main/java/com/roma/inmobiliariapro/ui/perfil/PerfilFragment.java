@@ -57,16 +57,33 @@ public class PerfilFragment extends Fragment {
                 binding.etDni.setText(propietario.getDni());
                 binding.etTelefono.setText(propietario.getTelefono());
                 binding.etEmail.setText(propietario.getEmail());
-
-                if(binding.btnEditarGuardar.getText().toString().equalsIgnoreCase("CARGANDO")) {
-                    binding.btnEditarGuardar.setText("EDITAR");
-                    binding.btnEditarGuardar.setEnabled(true);
-                }
             }
         });
 
-        propietarioViewModel.getMsgErrorMutable().observe(getViewLifecycleOwner(), error -> {
-            if(error != null) Toast.makeText(getContext(), error, Toast.LENGTH_LONG).show();
+        propietarioViewModel.getUpdateState().observe(getViewLifecycleOwner(), status -> {
+            switch (status) {
+                case WARNING:
+                    //warning cambiar de color los inputs
+                    break;
+                case LOADING:
+                    setEnabledInput(false);
+                    binding.btnEditarGuardar.setEnabled(false);
+                    binding.btnEditarGuardar.setText("CARGANDO");
+                    // deberiamos poner el circulito cargando y no cambiar el nombre del boton a cargando
+                    break;
+                case SUCCESS:
+                    setEnabledInput(false);
+                    binding.btnEditarGuardar.setEnabled(true);
+                    binding.btnEditarGuardar.setText("EDITAR");
+                    //desactivar el circulito de cargando
+                    break;
+                case ERROR:
+                    setEnabledInput(true);
+                    binding.btnEditarGuardar.setEnabled(true);
+                    binding.btnEditarGuardar.setText("GUARDAR");
+                    //desacttivar el circulito de cargando
+                    break;
+            }
         });
     }
 
@@ -77,10 +94,9 @@ public class PerfilFragment extends Fragment {
             if(textBtn.equalsIgnoreCase("EDITAR")) {
                 setEnabledInput(true);
                 binding.btnEditarGuardar.setText("GUARDAR");
-            } else if(textBtn.equalsIgnoreCase("GUARDAR")) {
-                setEnabledInput(false);
-                binding.btnEditarGuardar.setText("CARGANDO");
-                binding.btnEditarGuardar.setEnabled(false);
+            }
+
+            if(textBtn.equalsIgnoreCase("GUARDAR")) {
                 guardarCambios();
             }
         });
@@ -98,19 +114,11 @@ public class PerfilFragment extends Fragment {
     }
 
     private void guardarCambios() {
-        String nombre = binding.etNombre.getText().toString().trim();
-        String apellido = binding.etApellido.getText().toString().trim();
-        String telefono = binding.etTelefono.getText().toString().trim();
-
-        if (nombre.isEmpty() || apellido.isEmpty() || telefono.isEmpty()) {
-            Toast.makeText(getContext(), "Complete los campos obligatorios", Toast.LENGTH_SHORT).show();
-            setEnabledInput(true);
-            binding.btnEditarGuardar.setText("GUARDAR");
-            binding.btnEditarGuardar.setEnabled(true);
-            return;
-        }
-
-        propietarioViewModel.updatePropietario(nombre, apellido, telefono);
+        propietarioViewModel.updatePropietario(
+                binding.etNombre.getText().toString().trim(),
+                binding.etApellido.getText().toString().trim(),
+                binding.etTelefono.getText().toString().trim()
+        );
     }
 
     @Override

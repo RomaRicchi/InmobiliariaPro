@@ -10,6 +10,7 @@ import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
 
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -53,38 +54,46 @@ public class InmuebleCreateFragment extends Fragment {
         });
 
         binding.btnGuardarInmueble.setOnClickListener(v -> {
-
-            binding.btnGuardarInmueble.setEnabled(false);
-
-            String direccion = binding.etDireccionCreate.getText().toString();
-            String uso = binding.etUsoCreate.getText().toString();
-            String tipo = binding.etTipoCreate.getText().toString();
-            String ambientes = binding.etAmbientesCreate.getText().toString();
-            String superficie = binding.etSuperficieCreate.getText().toString();
-            String precio = binding.etPrecioCreate.getText().toString();
-            boolean disponible = binding.swDisponibleCreate.isChecked();
-            File imageFile;
-            if(!vm.validarCampos(direccion, uso, tipo, ambientes, superficie, precio) || imageUri == null) {
-                return ;
-            }
-            try {
-                imageFile = FileUtil.from(requireContext(), imageUri);
-            } catch (Exception e) {
+            if(imageUri == null) {
+                vm.validarImage(null, null);
                 return;
             }
 
-            Inmueble inmueble = new Inmueble();
+            File imageFile;
+            try {
+                imageFile = FileUtil.from(requireContext(), imageUri);
+            } catch (Exception e) {
+                vm.validarImage(imageUri, e);
+                return;
+            }
 
-            inmueble.setDireccion(direccion);
-            inmueble.setUso(uso);
-            inmueble.setTipo(tipo);
-            inmueble.setAmbientes(Integer.parseInt(ambientes));
-            inmueble.setSuperficie(Integer.parseInt(superficie));
-            inmueble.setPrecio(Double.parseDouble(precio));
-            inmueble.setEstado(disponible);
-
-            vm.crearInmueble(imageFile, inmueble);
+            vm.crearInmueble(
+                    imageFile,
+                    binding.etDireccionCreate.getText().toString(),
+                    binding.etUsoCreate.getText().toString(),
+                    binding.etTipoCreate.getText().toString(),
+                    binding.etAmbientesCreate.getText().toString(),
+                    binding.etSuperficieCreate.getText().toString(),
+                    binding.etPrecioCreate.getText().toString(),
+                    binding.swDisponibleCreate.isChecked()
+            );
         });
 
+        vm.getCreateInmuebleState().observe(getViewLifecycleOwner(), status -> {
+            switch (status) {
+                case WARNING:
+                    //cambiar de color los inputs
+                    break;
+                case LOADING:
+                    //agregar circulo de cargando
+                    binding.btnGuardarInmueble.setEnabled(false);
+                    break;
+                case SUCCESS:
+                case ERROR:
+                    //quitar circulo de cargando
+                    binding.btnGuardarInmueble.setEnabled(true);
+                    break;
+            }
+        });
     }
 }

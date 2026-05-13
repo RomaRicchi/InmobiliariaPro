@@ -70,10 +70,24 @@ public class InmuebleDetalleFragment extends Fragment {
                 }
             }
         });
+
+        vm.getToggleEstadoState().observe(getViewLifecycleOwner(), status -> {
+            switch (status) {
+                case LOADING:
+                    //poner el circulito de cargando
+                    binding.btnToggleEstado.setEnabled(false);
+                    break;
+                case SUCCESS:
+                case ERROR:
+                    //quitar el circulito de cargando
+                    binding.btnToggleEstado.setEnabled(true);
+                    break;
+            }
+        });
     }
 
     private void setupListeners() {
-        binding.btnVolver.setOnClickListener(v -> {
+        binding.btnToggleEstado.setOnClickListener(v -> {
             vm.toggleEstadoInmueble();
         });
     }

@@ -22,6 +22,28 @@ public class CambiarClaveFragment extends DialogFragment {
         binding = FragmentCambiarClaveBinding.inflate(inflater, container, false);
         vm = new ViewModelProvider(requireActivity()).get(PropietarioViewModel.class);
 
+        vm.getChangePasswordState().observe(getViewLifecycleOwner(), status -> {
+            switch (status) {
+                case WARNING:
+                    // cambiar colores de los inputs
+                    break;
+                case LOADING:
+                    binding.btnEditarPasswordDialog.setEnabled(false);
+                    //poner el circulito de cargando
+                    break;
+                case SUCCESS:
+                    //quitar el circulito de cargando
+                    binding.btnEditarPasswordDialog.setEnabled(true);
+                    dismiss();
+                    //cerrar DialogFragment
+                    break;
+                case ERROR:
+                    //quitar el circulito de cargando
+                    binding.btnEditarPasswordDialog.setEnabled(true);
+                    break;
+            }
+        });
+
         binding.btnEditarPasswordDialog.setOnClickListener(v -> {
             String passActual = binding.etCurrentPassword.getText().toString();
             String passNueva = binding.etNewPassword.getText().toString();

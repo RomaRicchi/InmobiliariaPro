@@ -13,8 +13,10 @@
     <color name="onTertiary">#FFFFFF</color>
     <color name="statusBarColor">#560027</color> <!-- Bordó muy oscuro -->
     <color name="white">#FFFFFF</color>
-    <color name="green">#4CAF50</color>
-    <color name="red">#F44336</color>
+    <color name="info">#40a6ce</color>
+    <color name="success">#4CAF50</color>
+    <color name="warning">#FF660B</color>
+    <color name="error">#F44336</color>
 
     <color name="logo_tint">#00000000</color> <!-- Sin tinte en modo claro -->
 

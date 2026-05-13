@@ -178,7 +178,7 @@
         </com.google.android.material.card.MaterialCardView>
 
         <Button
-            android:id="@+id/btnVolver"
+            android:id="@+id/btnToggleEstado"
             style="@style/Widget.MaterialComponents.Button"
             android:layout_width="match_parent"
             android:layout_height="60dp"

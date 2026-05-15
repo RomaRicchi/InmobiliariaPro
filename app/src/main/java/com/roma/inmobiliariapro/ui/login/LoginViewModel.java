@@ -15,6 +15,7 @@ import android.hardware.SensorEvent;
 import android.hardware.SensorEventListener;
 import android.hardware.SensorManager;
 import android.net.Uri;
+import android.util.Log;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
@@ -27,6 +28,9 @@ import com.roma.inmobiliariapro.MainActivity;
 import com.roma.inmobiliariapro.R;
 import com.roma.inmobiliariapro.data.api.ApiService;
 import com.roma.inmobiliariapro.data.api.RetrofitClient;
+import com.roma.inmobiliariapro.data.model.Status;
+import com.roma.inmobiliariapro.data.model.UiMessage;
+import com.roma.inmobiliariapro.utils.MessageManager;
 import com.roma.inmobiliariapro.utils.SharedPreferesManager;
 
 import java.util.List;
@@ -63,6 +67,7 @@ public class LoginViewModel extends AndroidViewModel {
 
     public void login(String usuario, String clave) {
         if (usuario.isEmpty() || clave.isEmpty()) {
+            Log.e("Login", "Usuario y contraseña son obligatorios.");
             errorMessage.setValue("Complete todos los campos");
             return;
         }
@@ -84,6 +89,7 @@ public class LoginViewModel extends AndroidViewModel {
                     itt.addFlags(FLAG_ACTIVITY_NEW_TASK);
                     getApplication().startActivity(itt);
                 } else {
+                    Log.e("Login", "Error en la respuesta del servidor: " + response.code());
                     errorMessage.setValue("Usuario o contraseña incorrectos");
                 }
                 isLoading.setValue(false);
@@ -92,6 +98,7 @@ public class LoginViewModel extends AndroidViewModel {
             @Override
             public void onFailure(Call<String> call, Throwable throwable) {
                 isLoading.setValue(false);
+                Log.e("Login", "Error en la solicitud: " + throwable.getMessage());
                 errorMessage.setValue("Error de conexión");
             }
         });

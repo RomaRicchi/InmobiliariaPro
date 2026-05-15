@@ -41,31 +41,12 @@ public class LoginActivity extends BaseActivity {
 
         setupListeners();
 
-        loginViewModel.getIsLoading().observe(this, boo -> {
-            if (Boolean.TRUE.equals(boo)) {
-                binding.progressBar.setVisibility(View.VISIBLE);
-                binding.btnLogin.setEnabled(false);
-
-            } else {
-                binding.progressBar.setVisibility(View.GONE);
-                binding.btnLogin.setEnabled(true);
-            }
-        });
+        loginViewModel.getIsLoading().observe(this, this::handleLoading);
+        loginViewModel.getLoginSuccess().observe(this, this::handleLoginSuccess);
+        loginViewModel.getShakeDetected().observe(this, this::handleShake);
         loginViewModel.getErrorMessage().observe(this, message -> {
             if (message != null && !message.isEmpty()) {
                 Toast.makeText(this, message, Toast.LENGTH_SHORT).show();
-            }
-        });
-
-        loginViewModel.getLoginSuccess().observe(this, success -> {
-            if (Boolean.TRUE.equals(success)) {
-                Toast.makeText(this, "Bienvenido", Toast.LENGTH_SHORT).show();
-                startActivity(new Intent(this, MainActivity.class));
-                finish();
-            }});
-        loginViewModel.getShakeDetected().observe(this, detected -> {
-            if (Boolean.TRUE.equals(detected)) {
-                makeCall();
             }
         });
     }
@@ -99,6 +80,25 @@ public class LoginActivity extends BaseActivity {
             } else {
                 Toast.makeText(this, "Permiso de llamada denegado", Toast.LENGTH_SHORT).show();
             }
+        }
+    }
+
+    private void handleLoading(Boolean isLoading) {
+        binding.progressBar.setVisibility(isLoading ? View.VISIBLE : View.GONE);
+        binding.btnLogin.setEnabled(!isLoading);
+    }
+
+    private void handleLoginSuccess(Boolean success) {
+        if (Boolean.TRUE.equals(success)) {
+            Toast.makeText(this, "Bienvenido", Toast.LENGTH_SHORT).show();
+            startActivity(new Intent(this, MainActivity.class));
+            finish();
+        }
+    }
+
+    private void handleShake(Boolean detected) {
+        if (Boolean.TRUE.equals(detected)) {
+            makeCall();
         }
     }
 

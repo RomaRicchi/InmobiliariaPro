@@ -61,9 +61,21 @@ public class PerfilFragment extends Fragment {
         });
 
         propietarioViewModel.getUpdateState().observe(getViewLifecycleOwner(), status -> {
-            switch (status) {
+            switch (status.getStatus()) {
                 case WARNING:
                     //warning cambiar de color los inputs
+                    if ("nombre".equals(status.getFieldName())) {
+                        binding.etNombre.requestFocus();
+                        binding.etNombre.setError("Campo obligatorio");
+                    }
+                    if ("telefono".equals(status.getFieldName())) {
+                        binding.etTelefono.requestFocus();
+                        binding.etTelefono.setError("Campo obligatorio");
+                    }
+                    if ("apellido".equals(status.getFieldName())) {
+                        binding.etApellido.requestFocus();
+                        binding.etApellido.setError("Campo obligatorio");
+                    }
                     break;
                 case LOADING:
                     setEnabledInput(false);

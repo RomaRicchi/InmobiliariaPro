@@ -140,7 +140,7 @@ public class MainActivity extends BaseActivity {
                 View view = snackbar.getView();
                 FrameLayout.LayoutParams params = (FrameLayout.LayoutParams) view.getLayoutParams();
                 params.gravity = Gravity.TOP;
-                params.topMargin = 50;
+                params.topMargin = 250;
                 view.setLayoutParams(params);
                 view.setBackgroundTintList(ColorStateList.valueOf(
                         ContextCompat.getColor(this, ColorUtil.getColorByStatus(uiMessage.status))));

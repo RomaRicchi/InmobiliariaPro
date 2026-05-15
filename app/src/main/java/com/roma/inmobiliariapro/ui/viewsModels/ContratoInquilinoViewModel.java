@@ -49,6 +49,7 @@ public class ContratoInquilinoViewModel extends AndroidViewModel {
                     contratoMutable.postValue(response.body());
                     if(obtenerPagos) getPagos(response.body().getId());
                 } else {
+                    Log.d("API - CONTRATOINQUILINO", "Error en la respuesta del servidor: " + response.code());
                     MessageManager.sendMsgResponse(response.code(), "ContratoInquilino");
                 }
             }
@@ -69,6 +70,7 @@ public class ContratoInquilinoViewModel extends AndroidViewModel {
                 if(response.isSuccessful() && response.body() != null) {
                     pagosMutable.postValue(response.body());
                 } else {
+                    Log.e("API - CONTRATOINQUILINO", "Error en la respuesta del servidor: " + response.code());
                     MessageManager.sendMsgResponse(response.code(), "ContratoInquilino");
                 }
             }

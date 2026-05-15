@@ -23,9 +23,15 @@ public class CambiarClaveFragment extends DialogFragment {
         vm = new ViewModelProvider(requireActivity()).get(PropietarioViewModel.class);
 
         vm.getChangePasswordState().observe(getViewLifecycleOwner(), status -> {
-            switch (status) {
+            switch (status.getStatus()) {
                 case WARNING:
                     // cambiar colores de los inputs
+                    if("newPassword".equals(status.getFieldName())){
+                        binding.etNewPassword.setError("Campo obligatorio");
+                    }
+                    if("currentPassword".equals(status.getFieldName())){
+                        binding.etCurrentPassword.setError("Campo obligatorio");
+                    }
                     break;
                 case LOADING:
                     binding.btnEditarPasswordDialog.setEnabled(false);

@@ -86,7 +86,7 @@ public class InmuebleCreateFragment extends Fragment {
 
     private void setupObservers() {
         vm.getCreateInmuebleState().observe(getViewLifecycleOwner(), status -> {
-            switch (status) {
+            switch (status.getStatus()) {
                 case LOADING:
                     setLoadingState(true);
                     break;
@@ -96,7 +96,47 @@ public class InmuebleCreateFragment extends Fragment {
                     Navigation.findNavController(requireView()).navigateUp();
                     break;
                 case ERROR:
+                    break;
                 case WARNING:
+                    if (status.getFieldName().equals("direccion")){
+                        binding.etDireccionCreate.requestFocus();
+                        binding.etDireccionCreate.setError("El campo Dirección es obligatorio.");
+                    }
+                    if (status.getFieldName().equals("uso")){
+                        binding.etUsoCreate.requestFocus();
+                        binding.etUsoCreate.setError("El campo uso es obligatorio.");
+                    }
+                    if (status.getFieldName().equals("ambientes")){
+                        binding.etAmbientesCreate.requestFocus();
+                        binding.etAmbientesCreate.setError("El campo ambientes es obligatorio.");
+                    }
+                    if (status.getFieldName().equals("superficie")){
+                        binding.etSuperficieCreate.requestFocus();
+                        binding.etSuperficieCreate.setError("El campo superficie es obligatorio.");
+                    }
+                    if (status.getFieldName().equals("precio")){
+                        binding.etPrecioCreate.requestFocus();
+                        binding.etPrecioCreate.setError("El campo precio es obligatorio.");
+                    }
+                    if (status.getFieldName().equals("tipo")){
+                        binding.etPrecioCreate.requestFocus();
+                        binding.etPrecioCreate.setError("El campo tipo es obligatorio.");
+                    }
+                    if (status.getFieldName().equals("ambientesNumero")){
+                        binding.etAmbientesCreate.requestFocus();
+                        binding.etAmbientesCreate.setError("El campo ambientes deben ser mayor a 0.");
+                    }
+                    if (status.getFieldName().equals("superficieNumero")){
+                        binding.etSuperficieCreate.requestFocus();
+                        binding.etSuperficieCreate.setError("El campo superficie deben ser mayor a 0.");
+                    }
+                    if (status.getFieldName().equals("precioNumero")){
+                        binding.etPrecioCreate.requestFocus();
+                        binding.etPrecioCreate.setError("El campo precio deben ser mayor a 0.");
+                    }
+                    break;
+                case INFO:
+                    break;
                 case IDLE:
                     setLoadingState(false);
                     break;

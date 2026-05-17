@@ -23,14 +23,18 @@ public class CambiarClaveFragment extends DialogFragment {
         vm = new ViewModelProvider(requireActivity()).get(PropietarioViewModel.class);
 
         vm.getChangePasswordState().observe(getViewLifecycleOwner(), status -> {
+            if (status == null) return;
+            
             switch (status.getStatus()) {
                 case WARNING:
-                    // cambiar colores de los inputs
+                    binding.btnEditarPasswordDialog.setEnabled(true);
                     if("newPassword".equals(status.getFieldName())){
                         binding.etNewPassword.setError("Campo obligatorio");
+                        binding.etNewPassword.requestFocus();
                     }
                     if("currentPassword".equals(status.getFieldName())){
                         binding.etCurrentPassword.setError("Campo obligatorio");
+                        binding.etCurrentPassword.requestFocus();
                     }
                     break;
                 case LOADING:
@@ -40,12 +44,14 @@ public class CambiarClaveFragment extends DialogFragment {
                 case SUCCESS:
                     //quitar el circulito de cargando
                     binding.btnEditarPasswordDialog.setEnabled(true);
+                    vm.resetChangePasswordState(); // Reseteamos el estado para que se pueda volver a abrir
                     dismiss();
                     //cerrar DialogFragment
                     break;
                 case ERROR:
                     //quitar el circulito de cargando
                     binding.btnEditarPasswordDialog.setEnabled(true);
+                    vm.resetChangePasswordState(); // También reseteamos en error si queremos permitir reintentar sin trabas
                     break;
             }
         });
@@ -63,13 +69,19 @@ public class CambiarClaveFragment extends DialogFragment {
     @Override
     public void onStart() {
         super.onStart();
-
         if (getDialog() != null && getDialog().getWindow() != null) {
-
             getDialog().getWindow().setLayout(
                     ViewGroup.LayoutParams.MATCH_PARENT,
                     ViewGroup.LayoutParams.WRAP_CONTENT
             );
         }
+    }
+    
+    @Override
+    public void onDestroyView() {
+        super.onDestroyView();
+        // Aseguramos que el estado se resetee al cerrar el diálogo por cualquier medio (ej. click afuera)
+        vm.resetChangePasswordState();
+        binding = null;
     }
 }

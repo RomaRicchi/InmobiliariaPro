@@ -42,6 +42,10 @@ public class PropietarioViewModel extends AndroidViewModel {
     public LiveData<FieldValidation> getUpdateState() { return updateState; }
     public LiveData<FieldValidation> getChangePasswordState() { return changePasswordState; }
 
+    public void resetChangePasswordState() {
+        changePasswordState.setValue(null);
+    }
+
     public void getPropietario() {
         if(propietarioMutable.getValue() != null) {
             propietarioMutable.setValue(propietarioMutable.getValue());

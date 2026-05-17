@@ -40,7 +40,7 @@ public interface ApiService {
 
     @FormUrlEncoded
     @PUT("api/Propietarios/changePassword")
-    Call<Void> cambiarContrasena(@Field("currentPassoword") String currentPassword, @Field("newPassword") String newPassword);
+    Call<Void> cambiarContrasena(@Field("currentPassword") String currentPassword, @Field("newPassword") String newPassword);
 
     // --- Inmuebles ---
     @GET("api/Inmuebles")

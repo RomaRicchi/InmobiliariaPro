@@ -1,5 +1,6 @@
 package com.roma.inmobiliariapro.ui.inmuebles;
 
+import android.graphics.Color; // Librería correcta para colores
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -9,7 +10,6 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
-import androidx.navigation.Navigation;
 
 import com.bumptech.glide.Glide;
 import com.roma.inmobiliariapro.R;
@@ -35,7 +35,6 @@ public class InmuebleDetalleFragment extends Fragment {
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
-        // Recuperar el inmueble del Bundle pasado desde el Adapter
         if (getArguments() != null) {
             Inmueble inmueble = (Inmueble) getArguments().getSerializable("inmueble");
             if (inmueble != null) {
@@ -48,6 +47,7 @@ public class InmuebleDetalleFragment extends Fragment {
     }
 
     private void setupObservers() {
+        // Unificamos toda la actualización de la UI en un solo lugar
         vm.getInmuebleMutable().observe(getViewLifecycleOwner(), inmueble -> {
             if (inmueble != null) {
                 binding.tvDetalleDireccion.setText(inmueble.getDireccion());
@@ -58,7 +58,16 @@ public class InmuebleDetalleFragment extends Fragment {
                 binding.tvDetalleSuperficie.setText(String.format(Locale.getDefault(), "%d m²", inmueble.getSuperficie()));
                 binding.cbDetalleDisponible.setChecked(inmueble.isEstado());
 
-                // Cargar imagen con Glide
+                // --- APLICACIÓN DEL CAMBIO SOLICITADO ---
+                if (inmueble.isEstado()) {
+                    binding.btnToggleEstado.setText("Desactivar disponibilidad");
+                    binding.btnToggleEstado.setBackgroundColor(Color.parseColor("#D32F2F")); // Rojo
+                } else {
+                    binding.btnToggleEstado.setText("Activar disponibilidad");
+                    binding.btnToggleEstado.setBackgroundColor(Color.parseColor("#388E3C")); // Verde
+                }
+                // ----------------------------------------
+
                 if (inmueble.getImagenFullUrl() != null) {
                     Glide.with(requireContext())
                             .load(inmueble.getImagenFullUrl())
@@ -71,22 +80,24 @@ public class InmuebleDetalleFragment extends Fragment {
             }
         });
 
+        // Observador del estado de la petición (Loading)
         vm.getToggleEstadoState().observe(getViewLifecycleOwner(), status -> {
-            switch (status) {
-                case LOADING:
-                    //poner el circulito de cargando
-                    binding.btnToggleEstado.setEnabled(false);
-                    break;
-                case SUCCESS:
-                case ERROR:
-                    //quitar el circulito de cargando
-                    binding.btnToggleEstado.setEnabled(true);
-                    break;
+            if (status != null) {
+                switch (status) {
+                    case LOADING:
+                        binding.btnToggleEstado.setEnabled(false);
+                        break;
+                    case SUCCESS:
+                    case ERROR:
+                        binding.btnToggleEstado.setEnabled(true);
+                        break;
+                }
             }
         });
     }
 
     private void setupListeners() {
+        // Uso btnToggleEstado que es el ID que manejas para la acción
         binding.btnToggleEstado.setOnClickListener(v -> {
             vm.toggleEstadoInmueble();
         });

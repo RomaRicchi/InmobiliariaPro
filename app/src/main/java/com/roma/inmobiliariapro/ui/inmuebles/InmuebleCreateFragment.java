@@ -14,7 +14,9 @@ import androidx.navigation.Navigation;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ArrayAdapter;
 
+import com.roma.inmobiliariapro.R;
 import com.roma.inmobiliariapro.databinding.FragmentInmuebleCreateBinding;
 import com.roma.inmobiliariapro.utils.FileUtil;
 
@@ -38,6 +40,9 @@ public class InmuebleCreateFragment extends Fragment {
 
         setupListeners();
         setupObservers();
+        setSpinnerUso();
+        setSpinnerTipo();
+        setSpinnerAmbientes();
     }
 
     private void setupListeners() {
@@ -58,9 +63,9 @@ public class InmuebleCreateFragment extends Fragment {
         binding.btnGuardarInmueble.setOnClickListener(v -> {
             inmuebleCreateVM.crearInmueble(
                     binding.etDireccionCreate.getText().toString(),
-                    binding.etUsoCreate.getText().toString(),
-                    binding.etTipoCreate.getText().toString(),
-                    binding.etAmbientesCreate.getText().toString(),
+                    binding.autoUso.getText().toString(),
+                    binding.autoTipo.getText().toString(),
+                    binding.autoAmbientes.getText().toString(),
                     binding.etSuperficieCreate.getText().toString(),
                     binding.etPrecioCreate.getText().toString(),
                     binding.swDisponibleCreate.isChecked()
@@ -87,12 +92,13 @@ public class InmuebleCreateFragment extends Fragment {
                         binding.etDireccionCreate.setError("El campo Dirección es obligatorio.");
                     }
                     if (status.getFieldName().equals("uso")){
-                        binding.etUsoCreate.requestFocus();
-                        binding.etUsoCreate.setError("El campo uso es obligatorio.");
+                        binding.autoUso.requestFocus();
+                        binding.autoUso.setError("El campo Uso es obligatorio.");
+
                     }
                     if (status.getFieldName().equals("ambientes")){
-                        binding.etAmbientesCreate.requestFocus();
-                        binding.etAmbientesCreate.setError("El campo ambientes es obligatorio.");
+                        binding.autoAmbientes.requestFocus();
+                        binding.autoAmbientes.setError("El campo ambientes es obligatorio.");
                     }
                     if (status.getFieldName().equals("superficie")){
                         binding.etSuperficieCreate.requestFocus();
@@ -103,12 +109,12 @@ public class InmuebleCreateFragment extends Fragment {
                         binding.etPrecioCreate.setError("El campo precio es obligatorio.");
                     }
                     if (status.getFieldName().equals("tipo")){
-                        binding.etPrecioCreate.requestFocus();
-                        binding.etPrecioCreate.setError("El campo tipo es obligatorio.");
+                        binding.autoTipo.requestFocus();
+                        binding.autoTipo.setError("El campo Tipo es obligatorio.");
                     }
                     if (status.getFieldName().equals("ambientesNumero")){
-                        binding.etAmbientesCreate.requestFocus();
-                        binding.etAmbientesCreate.setError("El campo ambientes deben ser mayor a 0.");
+                        binding.autoAmbientes.requestFocus();
+                        binding.autoAmbientes.setError("El campo ambientes deben ser mayor a 0.");
                     }
                     if (status.getFieldName().equals("superficieNumero")){
                         binding.etSuperficieCreate.requestFocus();
@@ -138,6 +144,40 @@ public class InmuebleCreateFragment extends Fragment {
             binding.btnGuardarInmueble.setText("Guardar Inmueble");
             binding.loadingIndicator.setVisibility(View.GONE);
         }
+    }
+
+    private void setSpinnerUso() {
+        String[] opciones = {"Comercial", "Residencial"};
+        ArrayAdapter<String> adapter = new ArrayAdapter<>(
+                requireContext(),
+                androidx.appcompat.R.layout.support_simple_spinner_dropdown_item, // Un layout simple para cada fila
+                opciones
+        );
+
+        binding.autoUso.setAdapter(adapter);
+    }
+
+    private void setSpinnerAmbientes() {
+        String[] opciones = {"1", "2", "3", "4", "5", "6", "7", "8", "9", "10"};
+        ArrayAdapter<String> adapter = new ArrayAdapter<>(
+                requireContext(),
+                androidx.appcompat.R.layout.support_simple_spinner_dropdown_item, // Un layout simple para cada fila
+                opciones
+        );
+
+        binding.autoAmbientes.setAdapter(adapter);
+        binding.autoAmbientes.setText(opciones[0], false);
+    }
+
+    private void setSpinnerTipo() {
+        String[] opciones = {"Local", "Depósito", "Casa", "Departamento"};
+        ArrayAdapter<String> adapter = new ArrayAdapter<>(
+                requireContext(),
+                androidx.appcompat.R.layout.support_simple_spinner_dropdown_item, // Un layout simple para cada fila
+                opciones
+        );
+
+        binding.autoTipo.setAdapter(adapter);
     }
 
     @Override

@@ -7,50 +7,43 @@ import android.view.ViewGroup;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatDelegate;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
 
 import com.roma.inmobiliariapro.databinding.FragmentPerfilBinding;
-import com.roma.inmobiliariapro.ui.viewsModels.PropietarioViewModel;
-import com.roma.inmobiliariapro.utils.SharedPreferesManager;
+import com.roma.inmobiliariapro.preferences.SettingManager;
 
 public class PerfilFragment extends Fragment {
 
     private FragmentPerfilBinding binding;
-    private PropietarioViewModel propietarioViewModel;
-    private SharedPreferesManager sharedPreferesManager;
+    private PerfilViewModel perfilVM;
+//    private SettingManager settingManager;
 
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         binding = FragmentPerfilBinding.inflate(inflater, container, false);
-        propietarioViewModel = new ViewModelProvider(requireActivity()).get(PropietarioViewModel.class);
-        sharedPreferesManager = new SharedPreferesManager(requireContext());
-
-        setupDarkModeSwitch();
-        setupObservers();
-        setupListeners();
-
-        propietarioViewModel.getPropietario();
+        perfilVM = new ViewModelProvider(requireActivity()).get(PerfilViewModel.class);
 
         return binding.getRoot();
     }
 
-    private void setupDarkModeSwitch() {
-        binding.switchDarkMode.setChecked(sharedPreferesManager.isDarkMode());
-        binding.switchDarkMode.setOnCheckedChangeListener((buttonView, isChecked) -> {
-            if (isChecked != sharedPreferesManager.isDarkMode()) {
-                sharedPreferesManager.setDarkMode(isChecked);
-                if (isChecked) {
-                    AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES);
-                } else {
-                    AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO);
-                }
-            }
-        });
+    @Override
+    public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
+
+//        settingManager = new SettingManager(requireContext());
+//        boolean darkMode = settingManager.isDarkMode();
+//        binding.switchDarkMode.setChecked(darkMode);
+
+        setupObservers();
+        setupListeners();
+
+        perfilVM.getPropietario();
     }
 
     private void setupObservers() {
-        propietarioViewModel.getPropietarioMutable().observe(getViewLifecycleOwner(), propietario -> {
+        perfilVM.getPropietarioMutable().observe(getViewLifecycleOwner(), propietario -> {
             if (propietario != null) {
                 binding.etNombre.setText(propietario.getNombre());
                 binding.etApellido.setText(propietario.getApellido());
@@ -60,7 +53,7 @@ public class PerfilFragment extends Fragment {
             }
         });
 
-        propietarioViewModel.getUpdateState().observe(getViewLifecycleOwner(), status -> {
+        perfilVM.getUpdateState().observe(getViewLifecycleOwner(), status -> {
             switch (status.getStatus()) {
                 case WARNING:
                     //warning cambiar de color los inputs
@@ -117,6 +110,11 @@ public class PerfilFragment extends Fragment {
             CambiarClaveFragment dialog = new CambiarClaveFragment();
             dialog.show(getParentFragmentManager(), "cambiar_clave");
         });
+
+//        binding.switchDarkMode.setOnCheckedChangeListener((btnView, isCheked) -> {
+//            settingManager.setDarkMode(isCheked);
+//            AppCompatDelegate.setDefaultNightMode(isCheked ? AppCompatDelegate.MODE_NIGHT_YES : AppCompatDelegate.MODE_NIGHT_NO);
+//        });
     }
 
     private void setEnabledInput(boolean enabled) {
@@ -126,7 +124,7 @@ public class PerfilFragment extends Fragment {
     }
 
     private void guardarCambios() {
-        propietarioViewModel.updatePropietario(
+        perfilVM.updatePropietario(
                 binding.etNombre.getText().toString().trim(),
                 binding.etApellido.getText().toString().trim(),
                 binding.etTelefono.getText().toString().trim()

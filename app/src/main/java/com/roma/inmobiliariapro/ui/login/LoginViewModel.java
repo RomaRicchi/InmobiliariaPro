@@ -3,35 +3,24 @@ package com.roma.inmobiliariapro.ui.login;
 import static android.content.Context.SENSOR_SERVICE;
 import static android.content.Intent.FLAG_ACTIVITY_NEW_TASK;
 
-import static androidx.core.content.ContextCompat.startActivity;
-
-import android.Manifest;
 import android.app.Application;
-import android.content.Context;
 import android.content.Intent;
-import android.content.pm.PackageManager;
 import android.hardware.Sensor;
 import android.hardware.SensorEvent;
 import android.hardware.SensorEventListener;
 import android.hardware.SensorManager;
-import android.net.Uri;
 import android.util.Log;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
-import androidx.core.app.ActivityCompat;
 import androidx.lifecycle.AndroidViewModel;
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 
 import com.roma.inmobiliariapro.MainActivity;
-import com.roma.inmobiliariapro.R;
 import com.roma.inmobiliariapro.data.api.ApiService;
 import com.roma.inmobiliariapro.data.api.RetrofitClient;
-import com.roma.inmobiliariapro.data.model.Status;
-import com.roma.inmobiliariapro.data.model.UiMessage;
-import com.roma.inmobiliariapro.utils.MessageManager;
-import com.roma.inmobiliariapro.utils.SharedPreferesManager;
+import com.roma.inmobiliariapro.preferences.SessionManager;
+import com.roma.inmobiliariapro.preferences.SettingManager;
 
 import java.util.List;
 
@@ -44,11 +33,10 @@ public class LoginViewModel extends AndroidViewModel {
     private final MutableLiveData<String> errorMessage = new MutableLiveData<>();
     private final MutableLiveData<Boolean> loginSuccess = new MutableLiveData<>();
     private ApiService apiService;
-    private SharedPreferesManager sharedPreferesManager;
+    private SessionManager sessionManager;
 
     // Sensor para agitar
-    private final MutableLiveData<Boolean> shakeDetected =
-            new MutableLiveData<>();
+    private final MutableLiveData<Boolean> shakeDetected = new MutableLiveData<>();
     private SensorManager sensorManager;
     private float acceleration;
     private float currentAcceleration;
@@ -57,12 +45,12 @@ public class LoginViewModel extends AndroidViewModel {
 
     public LoginViewModel(@NonNull Application application) {
         super(application);
-       sharedPreferesManager = new SharedPreferesManager(application);
-       apiService = RetrofitClient.getService(sharedPreferesManager);
-       sensorManager = (SensorManager) application.getSystemService(SENSOR_SERVICE);
-       acceleration = 10f;
-       currentAcceleration = SensorManager.GRAVITY_EARTH;
-       lastAcceleration = SensorManager.GRAVITY_EARTH;
+        sessionManager = SessionManager.getInstance(application);
+        apiService = RetrofitClient.getService(application);
+        sensorManager = (SensorManager) application.getSystemService(SENSOR_SERVICE);
+        acceleration = 10f;
+        currentAcceleration = SensorManager.GRAVITY_EARTH;
+        lastAcceleration = SensorManager.GRAVITY_EARTH;
     }
 
     public void login(String usuario, String clave) {
@@ -81,18 +69,13 @@ public class LoginViewModel extends AndroidViewModel {
             public void onResponse(Call<String> call, Response<String> response) {
                 if(response.isSuccessful() && response.body() != null) {
                     String token = response.body();
-                    sharedPreferesManager.saveToken(token);
-                    //msg de bienvenida
-                    isLoading.setValue(false);
+                    sessionManager.saveToken(token);
                     loginSuccess.setValue(true);
-                    Intent itt = new Intent(getApplication(), MainActivity.class);
-                    itt.addFlags(FLAG_ACTIVITY_NEW_TASK);
-                    getApplication().startActivity(itt);
                 } else {
                     Log.e("Login", "Error en la respuesta del servidor: " + response.code());
                     errorMessage.setValue("Usuario o contraseña incorrectos");
+                    isLoading.setValue(false);
                 }
-                isLoading.setValue(false);
             }
 
             @Override
@@ -119,7 +102,7 @@ public class LoginViewModel extends AndroidViewModel {
     public LiveData<Boolean> getLoginSuccess() {
         return loginSuccess;
     }
-    
+
     public void setLoading(boolean loading) {
         isLoading.setValue(loading);
     }

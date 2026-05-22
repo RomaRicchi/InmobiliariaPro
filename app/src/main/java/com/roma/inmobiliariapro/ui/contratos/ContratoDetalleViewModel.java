@@ -1,4 +1,4 @@
-package com.roma.inmobiliariapro.ui.viewsModels;
+package com.roma.inmobiliariapro.ui.contratos;
 
 import android.app.Application;
 import android.util.Log;
@@ -14,7 +14,6 @@ import com.roma.inmobiliariapro.data.model.response.Contrato;
 import com.roma.inmobiliariapro.data.model.response.Inmueble;
 import com.roma.inmobiliariapro.data.model.response.Pago;
 import com.roma.inmobiliariapro.utils.MessageManager;
-import com.roma.inmobiliariapro.utils.SharedPreferesManager;
 
 import java.util.List;
 
@@ -22,14 +21,13 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
-public class ContratoInquilinoViewModel extends AndroidViewModel {
-    private ApiService apiService;
+public class ContratoDetalleViewModel extends AndroidViewModel {
+    private final ApiService apiService;
     private MutableLiveData<Contrato> contratoMutable = new MutableLiveData<>();
     private MutableLiveData<List<Pago>> pagosMutable = new MutableLiveData<>();
-    public ContratoInquilinoViewModel(@NonNull Application application) {
+    public ContratoDetalleViewModel(@NonNull Application application) {
         super(application);
-        SharedPreferesManager sharedPreferesManager = new SharedPreferesManager(application);
-        apiService = RetrofitClient.getService(sharedPreferesManager);
+        apiService = RetrofitClient.getService(application);
     }
 
     public LiveData<Contrato> getContratoMutable() {
@@ -40,14 +38,13 @@ public class ContratoInquilinoViewModel extends AndroidViewModel {
         return pagosMutable;
     }
 
-    public void getContrato(Inmueble inmueble, boolean obtenerPagos) {
+    public void getContrato(Inmueble inmueble) {
         Call<Contrato> call = apiService.obtenerContratoPorInmueble(inmueble.getId());
         call.enqueue(new Callback<Contrato>() {
             @Override
             public void onResponse(Call<Contrato> call, Response<Contrato> response) {
                 if(response.isSuccessful() && response.body() != null) {
                     contratoMutable.postValue(response.body());
-                    if(obtenerPagos) getPagos(response.body().getId());
                 } else {
                     Log.d("API - CONTRATOINQUILINO", "Error en la respuesta del servidor: " + response.code());
                     MessageManager.sendMsgResponse(response.code(), "ContratoInquilino");
@@ -62,8 +59,10 @@ public class ContratoInquilinoViewModel extends AndroidViewModel {
         });
     }
 
-    private void getPagos(int contratoId) {
-        Call<List<Pago>> call = apiService.obtenerPagosPorContrato(contratoId);
+
+
+    private void getPagos() {
+        Call<List<Pago>> call = apiService.obtenerPagosPorContrato(contratoMutable.getValue().getId());
         call.enqueue(new Callback<List<Pago>>() {
             @Override
             public void onResponse(Call<List<Pago>> call, Response<List<Pago>> response) {
@@ -81,9 +80,5 @@ public class ContratoInquilinoViewModel extends AndroidViewModel {
                 Log.e("API - CONTRATOINQUILINO", throwable.getMessage(), throwable);
             }
         });
-    }
-
-    public void forceRefreshPagos() {
-        pagosMutable.setValue(pagosMutable.getValue());
     }
 }

@@ -12,23 +12,22 @@ import androidx.recyclerview.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import com.roma.inmobiliariapro.R;
+
 import com.roma.inmobiliariapro.databinding.FragmentContratoBinding;
-import com.roma.inmobiliariapro.databinding.FragmentInmuebleDetalleBinding;
 import com.roma.inmobiliariapro.ui.adapters.InmuebleAdapter;
-import com.roma.inmobiliariapro.ui.viewsModels.InmuebleViewModel;
+import com.roma.inmobiliariapro.ui.inmuebles.InmuebleViewModel;
 
 import java.util.ArrayList;
 
 
 public class ContratoFragment extends Fragment {
     private FragmentContratoBinding binding;
-    private InmuebleViewModel vm;
+    private ContratoViewModel contratoVM;
     private InmuebleAdapter adapter;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        vm = new ViewModelProvider(this).get(InmuebleViewModel.class);
+        contratoVM = new ViewModelProvider(this).get(ContratoViewModel.class);
         binding = FragmentContratoBinding.inflate(inflater, container, false);
 
         return binding.getRoot();
@@ -44,13 +43,13 @@ public class ContratoFragment extends Fragment {
         adapter = new InmuebleAdapter(new ArrayList<>(), getContext(),"DETALLES CONTRATO");
         recyclerView.setAdapter(adapter);
 
-        vm.getInmueblesAlquiladosMutable().observe(getViewLifecycleOwner(), inmuebles -> {
+        contratoVM.getInmueblesAlquiladosMutable().observe(getViewLifecycleOwner(), inmuebles -> {
             if(inmuebles != null) {
                 adapter = new InmuebleAdapter(inmuebles, getContext(), "DETALLES CONTRATO");
                 recyclerView.setAdapter(adapter);
             }
         });
 
-        vm.getInmublesAlquilados();
+        contratoVM.getInmublesAlquilados();
     }
 }

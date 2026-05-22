@@ -8,21 +8,18 @@ import androidx.lifecycle.ViewModelProvider;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Toast;
 
-import com.roma.inmobiliariapro.R;
 import com.roma.inmobiliariapro.databinding.FragmentCambiarClaveBinding;
-import com.roma.inmobiliariapro.ui.viewsModels.PropietarioViewModel;
 
 public class CambiarClaveFragment extends DialogFragment {
     private FragmentCambiarClaveBinding binding;
-    private PropietarioViewModel vm;
+    private CambiarClaveViewModel cambiarClaveVM;
 
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         binding = FragmentCambiarClaveBinding.inflate(inflater, container, false);
-        vm = new ViewModelProvider(requireActivity()).get(PropietarioViewModel.class);
+        cambiarClaveVM = new ViewModelProvider(requireActivity()).get(CambiarClaveViewModel.class);
 
-        vm.getChangePasswordState().observe(getViewLifecycleOwner(), status -> {
+        cambiarClaveVM.getChangePasswordState().observe(getViewLifecycleOwner(), status -> {
             if (status == null) return;
             
             switch (status.getStatus()) {
@@ -44,23 +41,23 @@ public class CambiarClaveFragment extends DialogFragment {
                 case SUCCESS:
                     //quitar el circulito de cargando
                     binding.btnEditarPasswordDialog.setEnabled(true);
-                    vm.resetChangePasswordState(); // Reseteamos el estado para que se pueda volver a abrir
+                    cambiarClaveVM.resetChangePasswordState(); // Reseteamos el estado para que se pueda volver a abrir
                     dismiss();
                     //cerrar DialogFragment
                     break;
                 case ERROR:
                     //quitar el circulito de cargando
                     binding.btnEditarPasswordDialog.setEnabled(true);
-                    vm.resetChangePasswordState(); // También reseteamos en error si queremos permitir reintentar sin trabas
+                    cambiarClaveVM.resetChangePasswordState(); // También reseteamos en error si queremos permitir reintentar sin trabas
                     break;
             }
         });
 
         binding.btnEditarPasswordDialog.setOnClickListener(v -> {
-            String passActual = binding.etCurrentPassword.getText().toString();
-            String passNueva = binding.etNewPassword.getText().toString();
-
-            vm.cambiarContrasena(passActual, passNueva);
+            cambiarClaveVM.cambiarContrasena(
+                    binding.etCurrentPassword.getText().toString(),
+                    binding.etNewPassword.getText().toString()
+            );
         });
 
         return binding.getRoot();
@@ -81,7 +78,7 @@ public class CambiarClaveFragment extends DialogFragment {
     public void onDestroyView() {
         super.onDestroyView();
         // Aseguramos que el estado se resetee al cerrar el diálogo por cualquier medio (ej. click afuera)
-        vm.resetChangePasswordState();
+        cambiarClaveVM.resetChangePasswordState();
         binding = null;
     }
 }

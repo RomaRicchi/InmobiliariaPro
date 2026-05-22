@@ -13,13 +13,10 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.roma.inmobiliariapro.R;
-import com.roma.inmobiliariapro.data.model.response.Inmueble;
 import com.roma.inmobiliariapro.databinding.FragmentInmuebleBinding;
 import com.roma.inmobiliariapro.ui.adapters.InmuebleAdapter;
-import com.roma.inmobiliariapro.ui.viewsModels.InmuebleViewModel;
 
 import java.util.ArrayList;
-import java.util.List;
 
 public class InmuebleFragment extends Fragment {
     private FragmentInmuebleBinding binding;

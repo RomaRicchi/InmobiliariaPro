@@ -116,14 +116,14 @@
             android:text="Editar"
             style="@style/Widget.MaterialComponents.Button" />
 
-        <com.google.android.material.materialswitch.MaterialSwitch
-            android:id="@+id/switchDarkMode"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="16dp"
-            android:layout_marginBottom="16dp"
-            android:padding="8dp"
-            android:text="Modo Oscuro" />
+<!--        <com.google.android.material.materialswitch.MaterialSwitch-->
+<!--            android:id="@+id/switchDarkMode"-->
+<!--            android:layout_width="match_parent"-->
+<!--            android:layout_height="wrap_content"-->
+<!--            android:layout_marginTop="16dp"-->
+<!--            android:layout_marginBottom="16dp"-->
+<!--            android:padding="8dp"-->
+<!--            android:text="Modo Oscuro" />-->
 
         <Button
             android:id="@+id/btnEditarPassword"

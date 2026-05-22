@@ -13,23 +13,28 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import com.roma.inmobiliariapro.R;
+import com.roma.inmobiliariapro.data.model.response.Contrato;
 import com.roma.inmobiliariapro.databinding.FragmentPagoBinding;
-import com.roma.inmobiliariapro.ui.adapters.InmuebleAdapter;
 import com.roma.inmobiliariapro.ui.adapters.PagoAdapter;
-import com.roma.inmobiliariapro.ui.viewsModels.ContratoInquilinoViewModel;
 
 import java.util.ArrayList;
 
 public class PagoFragment extends Fragment {
     private FragmentPagoBinding binding;
-    private ContratoInquilinoViewModel vm;
+    private PagoViewModel pagoVM;
     private PagoAdapter adapter;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         binding = FragmentPagoBinding.inflate(inflater, container, false);
-        vm = new ViewModelProvider(requireActivity()).get(ContratoInquilinoViewModel.class);
+        pagoVM = new ViewModelProvider(requireActivity()).get(PagoViewModel.class);
+
+        if (getArguments() != null) {
+            Contrato contrato = (Contrato) getArguments().getSerializable("contrato");
+            if (contrato != null) {
+                pagoVM.getPagos(contrato);
+            }
+        }
 
         return binding.getRoot();
     }
@@ -44,13 +49,11 @@ public class PagoFragment extends Fragment {
         adapter = new PagoAdapter(new ArrayList<>(), getContext());
         recyclerView.setAdapter(adapter);
 
-        vm.getPagosMutable().observe(getViewLifecycleOwner(), pagos -> {
+        pagoVM.getPagosMutable().observe(getViewLifecycleOwner(), pagos -> {
             if(pagos != null) {
                 adapter = new PagoAdapter(pagos, getContext());
                 recyclerView.setAdapter(adapter);
             }
         });
-
-        vm.forceRefreshPagos();
     }
 }

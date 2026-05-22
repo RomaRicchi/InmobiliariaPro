@@ -16,6 +16,7 @@ import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.android.material.navigation.NavigationView;
 import com.google.android.material.snackbar.Snackbar;
 
+import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.app.AppCompatDelegate;
 import androidx.core.content.ContextCompat;
 import androidx.lifecycle.ViewModelProvider;
@@ -26,19 +27,18 @@ import androidx.navigation.ui.AppBarConfiguration;
 import androidx.navigation.ui.NavigationUI;
 
 import com.roma.inmobiliariapro.databinding.ActivityMainBinding;
-import com.roma.inmobiliariapro.ui.BaseActivity;
+import com.roma.inmobiliariapro.preferences.SessionManager;
 import com.roma.inmobiliariapro.ui.login.LoginActivity;
-import com.roma.inmobiliariapro.ui.viewsModels.PropietarioViewModel;
 import com.roma.inmobiliariapro.utils.ColorUtil;
 import com.roma.inmobiliariapro.utils.MessageManager;
 import com.roma.inmobiliariapro.utils.SharedPreferesManager;
 
-public class MainActivity extends BaseActivity {
+public class MainActivity extends AppCompatActivity {
 
     private AppBarConfiguration mAppBarConfiguration;
     private SharedPreferesManager sharedPreferesManager;
     private ActivityMainBinding binding;
-    private PropietarioViewModel propietarioVM;
+    private MainViewModel mainVM;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -48,7 +48,7 @@ public class MainActivity extends BaseActivity {
         setContentView(binding.getRoot());
 
         sharedPreferesManager = new SharedPreferesManager(this);
-        propietarioVM = new ViewModelProvider(this).get(PropietarioViewModel.class);
+        mainVM = new ViewModelProvider(this).get(MainViewModel.class);
 
         // Aplicar tema guardado (Modo Oscuro/Claro)
         if (sharedPreferesManager.isDarkMode()) {
@@ -58,14 +58,9 @@ public class MainActivity extends BaseActivity {
         }
 
         // Cargar datos del propietario
-        propietarioVM.getPropietario();
+        mainVM.getPropietario();
 
         setSupportActionBar(binding.appBarMain.toolbar);
-
-        if (binding.appBarMain.fab != null) {
-            binding.appBarMain.fab.setOnClickListener(view -> Snackbar.make(view, "Acción personalizada", Snackbar.LENGTH_LONG)
-                    .setAction("Action", null).setAnchorView(R.id.fab).show());
-        }
 
         NavHostFragment navHostFragment = (NavHostFragment) getSupportFragmentManager().findFragmentById(R.id.nav_host_fragment_content_main);
         assert navHostFragment != null;
@@ -73,9 +68,12 @@ public class MainActivity extends BaseActivity {
 
         // Destinos de nivel superior
         mAppBarConfiguration = new AppBarConfiguration.Builder(
-                R.id.nav_inicio, R.id.nav_inmuebles, R.id.nav_inquilinos, R.id.nav_perfil, R.id.nav_contratos)
-                .setOpenableLayout(binding.drawerLayout)
-                .build();
+                R.id.nav_inicio,
+                R.id.nav_inmuebles,
+                R.id.nav_inquilinos,
+                R.id.nav_perfil,
+                R.id.nav_contratos
+        ).setOpenableLayout(binding.drawerLayout).build();
 
         NavigationUI.setupActionBarWithNavController(this, navController, mAppBarConfiguration);
 
@@ -116,7 +114,7 @@ public class MainActivity extends BaseActivity {
         TextView email = headerView.findViewById(R.id.textEmail);
         ImageView profileImage = headerView.findViewById(R.id.imageProfile);
 
-        propietarioVM.getPropietarioMutable().observe(this, propietario -> {
+        mainVM.getPropietarioMutable().observe(this, propietario -> {
             if (propietario != null) {
                 String nombreCompleto = (propietario.getNombre() != null) ? 
                         (propietario.getNombre() + " " + propietario.getApellido()) : 
@@ -145,6 +143,15 @@ public class MainActivity extends BaseActivity {
                 view.setBackgroundTintList(ColorStateList.valueOf(
                         ContextCompat.getColor(this, ColorUtil.getColorByStatus(uiMessage.status))));
                 snackbar.show();
+            }
+        });
+
+        SessionManager.getInstance(this).getSessionExpired().observe(this, expired -> {
+            if(Boolean.TRUE.equals(expired)) {
+                Intent intent = new Intent(MainActivity.this, LoginActivity.class);
+                intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+                startActivity(intent);
+                finish();
             }
         });
     }

@@ -15,19 +15,16 @@ import com.bumptech.glide.Glide;
 import com.roma.inmobiliariapro.R;
 import com.roma.inmobiliariapro.data.model.response.Inmueble;
 import com.roma.inmobiliariapro.databinding.FragmentInmuebleDetalleBinding;
-import com.roma.inmobiliariapro.ui.viewsModels.InmuebleViewModel;
 
 import java.util.Locale;
 
 public class InmuebleDetalleFragment extends Fragment {
-
-    private InmuebleViewModel vm;
     private FragmentInmuebleDetalleBinding binding;
-
+    private InmuebleDetalleViewModel inmuebleDetalleVM;
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         binding = FragmentInmuebleDetalleBinding.inflate(inflater, container, false);
-        vm = new ViewModelProvider(this).get(InmuebleViewModel.class);
+        inmuebleDetalleVM = new ViewModelProvider(this).get(InmuebleDetalleViewModel.class);
         return binding.getRoot();
     }
 
@@ -38,7 +35,7 @@ public class InmuebleDetalleFragment extends Fragment {
         if (getArguments() != null) {
             Inmueble inmueble = (Inmueble) getArguments().getSerializable("inmueble");
             if (inmueble != null) {
-                vm.setInmueble(inmueble);
+                inmuebleDetalleVM.setInmueble(inmueble);
             }
         }
 
@@ -48,7 +45,7 @@ public class InmuebleDetalleFragment extends Fragment {
 
     private void setupObservers() {
         // Unificamos toda la actualización de la UI en un solo lugar
-        vm.getInmuebleMutable().observe(getViewLifecycleOwner(), inmueble -> {
+        inmuebleDetalleVM.getInmuebleMutable().observe(getViewLifecycleOwner(), inmueble -> {
             if (inmueble != null) {
                 binding.tvDetalleDireccion.setText(inmueble.getDireccion());
                 binding.tvDetallePrecio.setText(String.format(Locale.getDefault(), "$ %.2f", inmueble.getPrecio()));
@@ -81,7 +78,7 @@ public class InmuebleDetalleFragment extends Fragment {
         });
 
         // Observador del estado de la petición (Loading)
-        vm.getToggleEstadoState().observe(getViewLifecycleOwner(), status -> {
+        inmuebleDetalleVM.getToggleEstadoState().observe(getViewLifecycleOwner(), status -> {
             if (status != null) {
                 switch (status) {
                     case LOADING:
@@ -99,7 +96,7 @@ public class InmuebleDetalleFragment extends Fragment {
     private void setupListeners() {
         // Uso btnToggleEstado que es el ID que manejas para la acción
         binding.btnToggleEstado.setOnClickListener(v -> {
-            vm.toggleEstadoInmueble();
+            inmuebleDetalleVM.toggleEstadoInmueble();
         });
     }
 

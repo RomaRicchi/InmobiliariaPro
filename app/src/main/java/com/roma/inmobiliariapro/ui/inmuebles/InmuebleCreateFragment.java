@@ -16,21 +16,19 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.roma.inmobiliariapro.databinding.FragmentInmuebleCreateBinding;
-import com.roma.inmobiliariapro.ui.viewsModels.InmuebleViewModel;
 import com.roma.inmobiliariapro.utils.FileUtil;
 
 import java.io.File;
 
 public class InmuebleCreateFragment extends Fragment {
     private FragmentInmuebleCreateBinding binding;
-    private InmuebleViewModel vm;
+    private InmuebleCreateViewModel inmuebleCreateVM;
     private ActivityResultLauncher<String> pickImageLauncher;
-    private Uri imageUri;
 
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         binding = FragmentInmuebleCreateBinding.inflate(inflater, container, false);
-        vm = new ViewModelProvider(requireActivity()).get(InmuebleViewModel.class);
+        inmuebleCreateVM = new ViewModelProvider(requireActivity()).get(InmuebleCreateViewModel.class);
         return binding.getRoot();
     }
 
@@ -47,7 +45,7 @@ public class InmuebleCreateFragment extends Fragment {
                 new ActivityResultContracts.GetContent(),
                 uri -> {
                     if(uri != null) {
-                        imageUri = uri;
+                        inmuebleCreateVM.setUriImage(uri);
                         binding.ivInmuebleNueva.setImageURI(uri);
                         binding.ivInmuebleNueva.setAlpha(1.0f);
                         binding.ivInmuebleNueva.setPadding(0, 0, 0, 0);
@@ -58,21 +56,7 @@ public class InmuebleCreateFragment extends Fragment {
         binding.cardImagenInmueble.setOnClickListener(v -> pickImageLauncher.launch("image/*"));
 
         binding.btnGuardarInmueble.setOnClickListener(v -> {
-            if(imageUri == null) {
-                vm.validarImage(null, null);
-                return;
-            }
-
-            File imageFile;
-            try {
-                imageFile = FileUtil.from(requireContext(), imageUri);
-            } catch (Exception e) {
-                vm.validarImage(imageUri, e);
-                return;
-            }
-
-            vm.crearInmueble(
-                    imageFile,
+            inmuebleCreateVM.crearInmueble(
                     binding.etDireccionCreate.getText().toString(),
                     binding.etUsoCreate.getText().toString(),
                     binding.etTipoCreate.getText().toString(),
@@ -85,14 +69,14 @@ public class InmuebleCreateFragment extends Fragment {
     }
 
     private void setupObservers() {
-        vm.getCreateInmuebleState().observe(getViewLifecycleOwner(), status -> {
+        inmuebleCreateVM.getCreateInmuebleState().observe(getViewLifecycleOwner(), status -> {
             switch (status.getStatus()) {
                 case LOADING:
                     setLoadingState(true);
                     break;
                 case SUCCESS:
                     setLoadingState(false);
-                    vm.resetCreateState(); // Resetear para evitar re-navegación al volver
+                    inmuebleCreateVM.resetCreateState(); // Resetear para evitar re-navegación al volver
                     Navigation.findNavController(requireView()).navigateUp();
                     break;
                 case ERROR:

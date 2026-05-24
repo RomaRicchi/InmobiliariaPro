@@ -4,16 +4,13 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
-import androidx.appcompat.app.AppCompatDelegate;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
 
 import com.roma.inmobiliariapro.databinding.FragmentPerfilBinding;
-import com.roma.inmobiliariapro.preferences.SettingManager;
 
 public class PerfilFragment extends Fragment {
 

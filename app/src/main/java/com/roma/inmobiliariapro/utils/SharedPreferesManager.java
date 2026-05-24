@@ -3,6 +3,9 @@ package com.roma.inmobiliariapro.utils;
 import android.content.Context;
 import android.content.SharedPreferences;
 
+import androidx.lifecycle.LiveData;
+import androidx.lifecycle.MutableLiveData;
+
 public class SharedPreferesManager {
     private static final String PREF_NAME = "InmobiliariaProPrefs";
     private static final String KEY_TOKEN = "auth_token";
@@ -11,10 +14,24 @@ public class SharedPreferesManager {
     private final SharedPreferences.Editor editor;
     private final Context context;
 
-    public SharedPreferesManager(Context context) {
+    private static SharedPreferesManager instance;
+    private final MutableLiveData<Boolean> sessionExpired = new MutableLiveData<>();
+
+    private SharedPreferesManager(Context context) {
         this.context = context.getApplicationContext();
         sharedPreferences = context.getSharedPreferences(PREF_NAME, Context.MODE_PRIVATE);
         editor = sharedPreferences.edit();
+    }
+
+    public static synchronized SharedPreferesManager getInstance(Context context) {
+        if (instance == null) {
+            instance = new SharedPreferesManager(context.getApplicationContext());
+        }
+        return instance;
+    }
+
+    public LiveData<Boolean> getSessionExpired() {
+        return sessionExpired;
     }
 
     public void saveToken(String token) {
@@ -38,6 +55,11 @@ public class SharedPreferesManager {
     public void clearSession() {
         editor.clear();
         editor.apply();
+    }
+
+    public void logout() {
+        clearSession();
+        sessionExpired.postValue(true);
     }
 
     public boolean isLoggedIn() {

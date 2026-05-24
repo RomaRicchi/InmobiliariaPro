@@ -10,4 +10,16 @@ public class UiMessage {
         this.message = message;
         this.status = status;
     }
+
+    public String getTitle() {
+        return title;
+    }
+
+    public String getMessage() {
+        return message;
+    }
+
+    public Status getStatus() {
+        return status;
+    }
 }

@@ -13,7 +13,6 @@ import com.roma.inmobiliariapro.data.api.RetrofitClient;
 import com.roma.inmobiliariapro.data.model.Status;
 import com.roma.inmobiliariapro.data.model.UiMessage;
 import com.roma.inmobiliariapro.data.model.response.Propietario;
-import com.roma.inmobiliariapro.preferences.SettingManager;
 import com.roma.inmobiliariapro.utils.FieldValidation;
 import com.roma.inmobiliariapro.utils.MessageManager;
 

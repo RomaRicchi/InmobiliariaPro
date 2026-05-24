@@ -27,7 +27,6 @@ import androidx.navigation.ui.AppBarConfiguration;
 import androidx.navigation.ui.NavigationUI;
 
 import com.roma.inmobiliariapro.databinding.ActivityMainBinding;
-import com.roma.inmobiliariapro.preferences.SessionManager;
 import com.roma.inmobiliariapro.ui.login.LoginActivity;
 import com.roma.inmobiliariapro.utils.ColorUtil;
 import com.roma.inmobiliariapro.utils.MessageManager;
@@ -47,7 +46,7 @@ public class MainActivity extends AppCompatActivity {
         binding = ActivityMainBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
 
-        sharedPreferesManager = new SharedPreferesManager(this);
+        sharedPreferesManager = SharedPreferesManager.getInstance(this);
         mainVM = new ViewModelProvider(this).get(MainViewModel.class);
 
         // Aplicar tema guardado (Modo Oscuro/Claro)
@@ -89,7 +88,7 @@ public class MainActivity extends AppCompatActivity {
         NavigationView navigationView = binding.navView;
         NavigationUI.setupWithNavController(navigationView, navController);
 
-        // Configuración de la navegación inferior (Bottom Navigation) - CORREGIDO
+        // Configuración de la navegación inferior (Bottom Navigation)
         BottomNavigationView bottomNavView = binding.appBarMain.contentMain.bottomNavView;
         if (bottomNavView != null) {
             NavigationUI.setupWithNavController(bottomNavView, navController);
@@ -146,25 +145,22 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
-        SessionManager.getInstance(this).getSessionExpired().observe(this, expired -> {
+        // Observar expiración de sesión desde SharedPreferesManager
+        sharedPreferesManager.getSessionExpired().observe(this, expired -> {
             if(Boolean.TRUE.equals(expired)) {
-                Intent intent = new Intent(MainActivity.this, LoginActivity.class);
-                intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
-                startActivity(intent);
-                finish();
+                redirectToLogin();
             }
         });
     }
 
     private void showLogoutConfirmation() {
         Snackbar.make(binding.getRoot(), "¿Desea cerrar la sesión?", Snackbar.LENGTH_LONG)
-                .setAction("Cerrar Sesión", v -> logout())
+                .setAction("Cerrar Sesión", v -> sharedPreferesManager.logout())
                 .show();
     }
 
-    private void logout() {
-        sharedPreferesManager.clearSession();
-        Intent intent = new Intent(this, LoginActivity.class);
+    private void redirectToLogin() {
+        Intent intent = new Intent(MainActivity.this, LoginActivity.class);
         intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
         startActivity(intent);
         finish();

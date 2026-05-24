@@ -178,7 +178,7 @@
             android:layout_height="wrap_content"
             android:text="Disponible"
             android:layout_marginBottom="24dp"
-            android:checked="true"
+            android:checked="false"
             android:padding="8dp"
             app:thumbTint="@color/bordo_oscuro"
             app:trackTint="@color/bordo_clarito"/>

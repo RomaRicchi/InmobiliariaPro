@@ -1,6 +1,5 @@
 package com.roma.inmobiliariapro.ui.login;
 
-
 import android.Manifest;
 import android.content.Intent;
 import android.content.pm.PackageManager;
@@ -11,20 +10,18 @@ import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.appcompat.app.AppCompatDelegate;
 import androidx.core.app.ActivityCompat;
 import androidx.lifecycle.ViewModelProvider;
 
 import com.roma.inmobiliariapro.MainActivity;
 import com.roma.inmobiliariapro.R;
 import com.roma.inmobiliariapro.databinding.ActivityLoginBinding;
-import com.roma.inmobiliariapro.preferences.SettingManager;
+import com.roma.inmobiliariapro.utils.MessageManager;
 
 public class LoginActivity extends AppCompatActivity {
     private ActivityLoginBinding binding;
     private LoginViewModel loginViewModel;
     public static final int REQUEST_CALL_PERMISSION = 100;
-
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -35,18 +32,16 @@ public class LoginActivity extends AppCompatActivity {
 
         loginViewModel = new ViewModelProvider(this).get(LoginViewModel.class);
 
-//        SettingManager settingManager = new SettingManager(this);
-//        boolean darkMode = settingManager.isDarkMode();
-//        AppCompatDelegate.setDefaultNightMode(darkMode ? AppCompatDelegate.MODE_NIGHT_YES : AppCompatDelegate.MODE_NIGHT_NO);
-
         setupListeners();
 
         loginViewModel.getIsLoading().observe(this, this::handleLoading);
         loginViewModel.getLoginSuccess().observe(this, this::handleLoginSuccess);
         loginViewModel.getShakeDetected().observe(this, this::handleShake);
-        loginViewModel.getErrorMessage().observe(this, message -> {
-            if (message != null && !message.isEmpty()) {
-                Toast.makeText(this, message, Toast.LENGTH_SHORT).show();
+        
+        // Usamos MessageManager para todos los mensajes (errores de API, éxito, etc.)
+        MessageManager.getUiMessageMutable().observe(this, uiMessage -> {
+            if (uiMessage != null) {
+                Toast.makeText(this, uiMessage.getMessage(), Toast.LENGTH_LONG).show();
             }
         });
     }
@@ -56,6 +51,11 @@ public class LoginActivity extends AppCompatActivity {
             String usuario = binding.etUsuario.getText().toString().trim();
             String clave = binding.etClave.getText().toString().trim();
             loginViewModel.login(usuario, clave);
+        });
+
+        binding.tvOlvideClave.setOnClickListener(v -> {
+            String usuario = binding.etUsuario.getText().toString().trim();
+            loginViewModel.resetearContrasena(usuario);
         });
     }
 
@@ -86,6 +86,7 @@ public class LoginActivity extends AppCompatActivity {
     private void handleLoading(Boolean isLoading) {
         binding.progressBar.setVisibility(isLoading ? View.VISIBLE : View.GONE);
         binding.btnLogin.setEnabled(!isLoading);
+        binding.tvOlvideClave.setEnabled(!isLoading);
     }
 
     private void handleLoginSuccess(Boolean success) {

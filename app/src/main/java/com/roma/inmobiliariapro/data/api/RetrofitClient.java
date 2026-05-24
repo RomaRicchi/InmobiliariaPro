@@ -2,7 +2,7 @@ package com.roma.inmobiliariapro.data.api;
 
 import android.content.Context;
 
-import com.roma.inmobiliariapro.preferences.SessionManager;
+import com.roma.inmobiliariapro.utils.SharedPreferesManager;
 
 import okhttp3.OkHttpClient;
 import retrofit2.Retrofit;
@@ -16,8 +16,8 @@ public class RetrofitClient {
 
     public static ApiService getService(Context context) {
         if (retrofit == null) {
-            SessionManager sessionManager = SessionManager.getInstance(context.getApplicationContext());
-            OkHttpClient client = new OkHttpClient.Builder().addInterceptor(new AuthInterceptor(sessionManager)).build();
+            SharedPreferesManager sharedPreferesManager = SharedPreferesManager.getInstance(context.getApplicationContext());
+            OkHttpClient client = new OkHttpClient.Builder().addInterceptor(new AuthInterceptor(sharedPreferesManager)).build();
 
 //            HttpLoggingInterceptor logging = new HttpLoggingInterceptor();
 //            logging.setLevel(HttpLoggingInterceptor.Level.BODY);

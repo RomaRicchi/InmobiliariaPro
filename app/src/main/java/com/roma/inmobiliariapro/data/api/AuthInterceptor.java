@@ -2,7 +2,7 @@ package com.roma.inmobiliariapro.data.api;
 
 import androidx.annotation.NonNull;
 
-import com.roma.inmobiliariapro.preferences.SessionManager;
+import com.roma.inmobiliariapro.utils.SharedPreferesManager;
 
 import java.io.IOException;
 
@@ -11,10 +11,10 @@ import okhttp3.Request;
 import okhttp3.Response;
 
 public class AuthInterceptor implements Interceptor {
-    private final SessionManager sessionManager;
+    private final SharedPreferesManager sharedPreferesManager;
 
-    public AuthInterceptor(SessionManager sessionManager) {
-        this.sessionManager = sessionManager;
+    public AuthInterceptor(SharedPreferesManager sharedPreferesManager) {
+        this.sharedPreferesManager = sharedPreferesManager;
     }
 
     @NonNull
@@ -22,7 +22,7 @@ public class AuthInterceptor implements Interceptor {
     public Response intercept(@NonNull Chain chain) throws IOException {
         Request original = chain.request();
         Request.Builder builder = original.newBuilder();
-        String token = sessionManager.getToken();
+        String token = sharedPreferesManager.getToken();
 
         if (token != null) {
             builder.addHeader(
@@ -34,7 +34,7 @@ public class AuthInterceptor implements Interceptor {
         Response response = chain.proceed(builder.build());
 
         if (response.code() == 401) {
-            sessionManager.logout();
+            sharedPreferesManager.logout();
         }
 
         return response;

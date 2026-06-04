@@ -38,6 +38,7 @@ public class LoginActivity extends AppCompatActivity {
 //        SettingManager settingManager = new SettingManager(this);
 //        boolean darkMode = settingManager.isDarkMode();
 //        AppCompatDelegate.setDefaultNightMode(darkMode ? AppCompatDelegate.MODE_NIGHT_YES : AppCompatDelegate.MODE_NIGHT_NO);
+        AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO);
 
         setupListeners();
 

@@ -50,13 +50,6 @@ public class MainActivity extends AppCompatActivity {
         sharedPreferesManager = new SharedPreferesManager(this);
         mainVM = new ViewModelProvider(this).get(MainViewModel.class);
 
-        // Aplicar tema guardado (Modo Oscuro/Claro)
-        if (sharedPreferesManager.isDarkMode()) {
-            AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES);
-        } else {
-            AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO);
-        }
-
         // Cargar datos del propietario
         mainVM.getPropietario();
 

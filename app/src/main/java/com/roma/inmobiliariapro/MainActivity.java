@@ -49,12 +49,8 @@ public class MainActivity extends AppCompatActivity {
         sharedPreferesManager = SharedPreferesManager.getInstance(this);
         mainVM = new ViewModelProvider(this).get(MainViewModel.class);
 
-        // Aplicar tema guardado (Modo Oscuro/Claro)
-        if (sharedPreferesManager.isDarkMode()) {
-            AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES);
-        } else {
-            AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO);
-        }
+        // Forzar modo claro para evitar que el sistema aplique el modo oscuro
+        AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO);
 
         // Cargar datos del propietario
         mainVM.getPropietario();
@@ -155,7 +151,9 @@ public class MainActivity extends AppCompatActivity {
 
     private void showLogoutConfirmation() {
         Snackbar.make(binding.getRoot(), "¿Desea cerrar la sesión?", Snackbar.LENGTH_LONG)
-                .setAction("Cerrar Sesión", v -> sharedPreferesManager.logout())
+                .setAction("Cerrar Sesión", v -> {
+                    sharedPreferesManager.logout();
+                })
                 .show();
     }
 

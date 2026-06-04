@@ -9,7 +9,7 @@ import androidx.lifecycle.MutableLiveData;
 public class SharedPreferesManager {
     private static final String PREF_NAME = "InmobiliariaProPrefs";
     private static final String KEY_TOKEN = "auth_token";
-    private static final String KEY_DARK_MODE = "dark_mode";
+    //private static final String KEY_DARK_MODE = "dark_mode";
     private final SharedPreferences sharedPreferences;
     private final SharedPreferences.Editor editor;
     private final Context context;
@@ -43,14 +43,14 @@ public class SharedPreferesManager {
         return sharedPreferences.getString(KEY_TOKEN, null);
     }
 
-    public void setDarkMode(boolean isDarkMode) {
-        editor.putBoolean(KEY_DARK_MODE, isDarkMode);
-        editor.apply();
-    }
+    //public void setDarkMode(boolean isDarkMode) {
+    //    editor.putBoolean(KEY_DARK_MODE, isDarkMode);
+    //    editor.apply();
+   // }
 
-    public boolean isDarkMode() {
-        return sharedPreferences.getBoolean(KEY_DARK_MODE, false);
-    }
+    //public boolean isDarkMode() {
+     //   return sharedPreferences.getBoolean(KEY_DARK_MODE, false);
+    //}
 
     public void clearSession() {
         editor.clear();
@@ -59,7 +59,8 @@ public class SharedPreferesManager {
 
     public void logout() {
         clearSession();
-        sessionExpired.postValue(true);
+        sessionExpired.setValue(true);
+        sessionExpired.setValue(false); // Reset para permitir futuros disparos
     }
 
     public boolean isLoggedIn() {

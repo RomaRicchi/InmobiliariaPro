@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.net.Uri;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.Toast;
 
@@ -27,6 +28,9 @@ public class LoginActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
+        // Forzar modo claro desde el inicio
+        androidx.appcompat.app.AppCompatDelegate.setDefaultNightMode(androidx.appcompat.app.AppCompatDelegate.MODE_NIGHT_NO);
+
         binding = ActivityLoginBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
 
@@ -48,6 +52,7 @@ public class LoginActivity extends AppCompatActivity {
 
     private void setupListeners() {
         binding.btnLogin.setOnClickListener(v -> {
+            Log.d("PRUEBA", "CLICK OLVIDE CLAVE");
             String usuario = binding.etUsuario.getText().toString().trim();
             String clave = binding.etClave.getText().toString().trim();
             loginViewModel.login(usuario, clave);
@@ -92,7 +97,13 @@ public class LoginActivity extends AppCompatActivity {
     private void handleLoginSuccess(Boolean success) {
         if (Boolean.TRUE.equals(success)) {
             Toast.makeText(this, "Bienvenido", Toast.LENGTH_SHORT).show();
-            startActivity(new Intent(LoginActivity.this, MainActivity.class));
+            
+            // Resetear estado para permitir futuros inicios de sesión si se vuelve a esta pantalla
+            loginViewModel.resetLoginState();
+
+            Intent intent = new Intent(LoginActivity.this, MainActivity.class);
+            intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+            startActivity(intent);
             finish();
         }
     }

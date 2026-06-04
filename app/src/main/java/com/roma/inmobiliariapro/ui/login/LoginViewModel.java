@@ -125,20 +125,29 @@ public class LoginViewModel extends AndroidViewModel {
                     String msg = response.body() != null ? response.body() : "Se ha enviado un correo para resetear su clave.";
                     Log.d(TAG, "Éxito: " + msg);
                     MessageManager.send(new UiMessage("Recuperación", msg, Status.SUCCESS));
-                } else {
-                    Log.e(TAG, "Error en respuesta: " + response.code());
-                    String errorMsg = "No se pudo procesar la solicitud.";
-                    try {
-                        if (response.errorBody() != null) {
-                            String serverError = response.errorBody().string();
-                            if (!serverError.isEmpty()) errorMsg = serverError;
+                }else {
+                        Log.e(TAG, "Error en respuesta: " + response.code());
+
+                        String errorMsg = "No se pudo procesar la solicitud.";
+
+                        try {
+                            if (response.errorBody() != null) {
+
+                                String serverError = response.errorBody().string();
+
+                                Log.e(TAG, "SERVER ERROR: " + serverError);
+
+                                if (!serverError.isEmpty()) {
+                                    errorMsg = serverError;
+                                }
+                            }
+                        } catch (IOException e) {
+                            Log.e(TAG, "Error leyendo errorBody", e);
                         }
-                    } catch (IOException e) {
-                        Log.e(TAG, "Error leyendo errorBody", e);
+
+                        errorMessage.postValue(errorMsg);
+                        MessageManager.send(new UiMessage("Recuperación", errorMsg, Status.ERROR));
                     }
-                    errorMessage.postValue(errorMsg);
-                    MessageManager.send(new UiMessage("Recuperación", errorMsg, Status.ERROR));
-                }
             }
 
             @Override
@@ -155,6 +164,10 @@ public class LoginViewModel extends AndroidViewModel {
     public LiveData<Boolean> getLoginSuccess() { return loginSuccess; }
     public LiveData<Boolean> getShakeDetected() { return shakeDetected; }
     public LiveData<String> getErrorMessage() { return errorMessage; }
+
+    public void resetLoginState() {
+        loginSuccess.setValue(null);
+    }
 
     private final SensorEventListener sensorListener = new SensorEventListener() {
         @Override
